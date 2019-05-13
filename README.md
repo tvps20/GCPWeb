@@ -72,4 +72,4 @@ spring.datasource.url=jdbc:mysql://localhost:3306/gcp_database_test?createDataba
 > tomcat/webapps
 
 #### 7. Logar no sistema
-> Realiar um cadastro de conta na opção 'Criar uma conta nova'
+> Realizar um cadastro de conta na opção 'Criar uma conta nova'
