@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Sagas</title>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="card shadow">
+        <div class="card-header border-0">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0">Sagas</h3>
+                </div>
+                <div class="col text-right">
+                    <!--<a href="#" class="btn btn-sm btn-primary">Pesquisar</a>-->
+                    <a href="/saga/create" class="btn btn-sm btn-secondary">Adicionar</a>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <!-- Projects table -->
+            <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Faltam</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="saga : ${sagas}">
+                    <th scope="row" th:text="${saga.titulo}"></th>
+                    <td th:text="${saga.items.size()}"></td>
+                    <td th:text="${saga.wishListItem()}"></td>
+                    <td>
+                        <a th:href="@{'saga/update/' + ${saga.id}}" class="btn btn-sm btn-primary">Editar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

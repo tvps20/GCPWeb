@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Esta classe define as configurações gerais da aplicação
+ *
  * @author Santiago Brothers
  */
 @Configuration
@@ -19,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/login").setViewName("login/login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import web.santiago.gcp.builders.HqBuilder;
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.HqDto;
@@ -57,17 +56,17 @@ public class HqControllerTest {
 
     @Test
     public void create() {
-    	Assert.assertEquals(this.hqController.create(this.model), "hq-save");
+        Assert.assertEquals(this.hqController.create(this.model), "hq/hq-save");
     }
 
     @Test
     public void update() {
-    	Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
+        Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
         Mockito.when(this.hqService.getById(1L)).thenReturn(this.hqOptional);
         Mockito.when(this.itemService.getByItemIdAndTipo(1L, TipoColecao.HQ.getValor())).thenReturn(item);
         Mockito.when(this.hqService.createDtoFromItemHq(item.get(), this.hqOptional.get())).thenReturn(this.hqDto);
 
-        Assert.assertEquals(this.hqController.update(1L, this.model), "hq-save");
+        Assert.assertEquals(this.hqController.update(1L, this.model), "hq/hq-save");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.HQ.getValor()), true);
     }
 
@@ -96,14 +95,14 @@ public class HqControllerTest {
     }
 
     @Test
-    public void saveError(){
+    public void saveError() {
         Mockito.when(this.hqService.save(this.hqDto)).thenReturn(this.hq);
         Mockito.when((this.bindingResult.hasErrors())).thenReturn(true);
-        Assert.assertEquals(this.hqController.save(this.hqDto, this.bindingResult), "hq-save");
+        Assert.assertEquals(this.hqController.save(this.hqDto, this.bindingResult), "hq/hq-save");
     }
 
     @Test
-    public void saveIdDiferenteZero(){
+    public void saveIdDiferenteZero() {
         Mockito.when(this.hqService.save(this.hqDto)).thenReturn(this.hq);
         this.hqDto.setId(1L);
         this.hqDto.setItemId(1L);

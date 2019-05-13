@@ -8,18 +8,22 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Define as informações enviadas pela view para o controller da entidade DvdCd
+ *
  * @author Santiago Brothers
  */
 public class DvdCdDto extends ItemDto {
 
-	@Getter @Setter
+    @Getter
+    @Setter
     private String marca;
 
-	@NotNull
+    @NotNull
     @NotEmpty
-	@Getter @Setter
+    @Getter
+    @Setter
     private String conteudo;
-	
-	@Getter @Setter
+
+    @Getter
+    @Setter
     private boolean assistido;
 }

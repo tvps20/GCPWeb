@@ -15,7 +15,10 @@ import web.santiago.gcp.entities.Amigo;
 import web.santiago.gcp.entities.Emprestimo;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.exceptions.EntityNotFoundException;
+import web.santiago.gcp.repositories.EmprestimoRepository;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public class EmprestimoServiceTest {
@@ -26,6 +29,10 @@ public class EmprestimoServiceTest {
     private ItemService itemService;
     @Mock
     private AmigoService amigoService;
+    @Mock
+    private EmprestimoRepository emprestimoRepository;
+    @Mock
+    private Date date;
 
     private EmprestimoService spyEmprestimoService;
 
@@ -34,6 +41,7 @@ public class EmprestimoServiceTest {
     private Optional<Emprestimo> emprestimoOptional;
     private Optional<Item> itemOptional;
     private Optional<Amigo> amigoOptional;
+    private List<Emprestimo> emprestimos;
 
     @Before
     public void setUp() {
@@ -44,6 +52,7 @@ public class EmprestimoServiceTest {
         this.itemOptional = ItemBuilder.mockItemBuilder().getItemOptional();
         this.amigoOptional = AmigoBuilder.mockAmigoBuilder().getAmigoOptional();
         this.spyEmprestimoService = Mockito.spy(this.emprestimoService);
+        this.emprestimos = (List<Emprestimo>) EmprestimoBuilder.mockCollectionEmprestimoBuilder().getEmprestimos();
     }
 
     @Test
@@ -57,18 +66,41 @@ public class EmprestimoServiceTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void mapperExceptionItem(){
+    public void mapperExceptionItem() {
         this.spyEmprestimoService.mapper(this.emprestimoDto);
 
         Mockito.verify(this.spyEmprestimoService).mapper(this.emprestimoDto);
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void mapperExceptionAmigo(){
+    public void mapperExceptionAmigo() {
         Mockito.when(this.itemService.getById(this.emprestimoDto.getItem())).thenReturn(this.itemOptional);
 
         this.spyEmprestimoService.mapper(this.emprestimoDto);
 
         Mockito.verify(this.spyEmprestimoService).mapper(this.emprestimoDto);
+    }
+
+    @Test
+    public void getAllEmprestimoAbertos() {
+        this.spyEmprestimoService.getAllEmprestimoAbertos();
+
+        Mockito.verify(this.spyEmprestimoService).getAllEmprestimoAbertos();
+    }
+
+    @Test
+    public void devolver() {
+        this.emprestimo.setItem(this.itemOptional.get());
+        Mockito.when(this.itemService.update(this.itemOptional.get())).thenReturn(this.itemOptional.get());
+        Mockito.when(this.emprestimoRepository.save(this.emprestimo)).thenReturn(this.emprestimo);
+
+        Assert.assertEquals(this.emprestimoService.devolver(this.emprestimo), this.emprestimo);
+    }
+
+    @Test
+    public void getEmprestimoNaoDevolvidoByItemId() {
+        Mockito.when(this.emprestimoRepository.findByItemIdAndDevolvidoFalse(this.itemOptional.get().getId())).thenReturn(this.emprestimoOptional);
+
+        Assert.assertEquals(this.emprestimoService.getEmprestimoNaoDevolvidoByItemId(this.itemOptional.get().getId()), this.emprestimoOptional);
     }
 }

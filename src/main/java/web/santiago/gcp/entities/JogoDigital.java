@@ -1,18 +1,18 @@
 package web.santiago.gcp.entities;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Representa um jogo digital ou em midia fisica
+ *
  * @author Santiago Brothers
  */
 @Data

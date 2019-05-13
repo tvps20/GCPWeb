@@ -1,12 +1,13 @@
 package web.santiago.gcp.entities;
 
+import lombok.Data;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.Data;
-
 /**
  * Representa uma DlcDto que faz parte de algum JogoDigital
+ *
  * @author Santiago Brothers
  */
 @Data

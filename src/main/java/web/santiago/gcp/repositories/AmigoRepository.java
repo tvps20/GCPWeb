@@ -6,6 +6,7 @@ import web.santiago.gcp.entities.Amigo;
 
 /**
  * Interface de comunicação com a base de dados Amigo
+ *
  * @author Santiago Brothers
  */
 @Repository

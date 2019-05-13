@@ -2,6 +2,7 @@ package web.santiago.gcp.exceptions;
 
 /**
  * Representa uma entidade não encontrada no banco de dados
+ *
  * @author Santiago Brothers
  */
 public class EntityNotFoundException extends RuntimeException {

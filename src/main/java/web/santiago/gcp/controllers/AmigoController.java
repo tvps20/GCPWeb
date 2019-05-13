@@ -17,13 +17,14 @@ import java.util.Optional;
 
 /**
  * Define as rotas e ações para interagir com a entidade Amigo
+ *
  * @author Santiago Brothers
  */
 @Controller
 @RequestMapping("/amigo")
 public class AmigoController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(AmigoController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(AmigoController.class);
 
     /**
      * Servico responsavel por interagir com a base de dados da entidade Amigo
@@ -40,11 +41,11 @@ public class AmigoController {
     @GetMapping
     public String index(Model model) {
 
-    	logger.info("Get all 'Amigo' from data source");
+        logger.info("Get all 'Amigo' from data source");
         List<Amigo> amigos = this.amigoService.getAll();
         model.addAttribute("amigos", amigos);
 
-        return "amigo-index";
+        return "amigo/amigo-index";
     }
 
     /**
@@ -55,7 +56,7 @@ public class AmigoController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("amigo", new AmigoDto());
-        return "amigo-save";
+        return "amigo/amigo-save";
     }
 
     /**
@@ -68,16 +69,16 @@ public class AmigoController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model) {
 
-    	logger.info("Find 'Amigo' Id: {} on data source", id);
+        logger.info("Find 'Amigo' Id: {} on data source", id);
         Optional<Amigo> entity = this.amigoService.getById(id);
 
         if (!entity.isPresent()) {
-        	logger.error("'Amigo' Id: {} nor found", id);
+            logger.error("'Amigo' Id: {} nor found", id);
             return "not-found";
         }
 
         model.addAttribute("amigo", entity.get());
-        return "amigo-save";
+        return "amigo/amigo-save";
     }
 
     /**
@@ -90,14 +91,14 @@ public class AmigoController {
     public String save(@Valid @ModelAttribute("amigo") AmigoDto dto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "amigo-save";
+            return "amigo/amigo-save";
         }
 
-    	if (dto.getId() != 0)
-    		logger.info("Updating 'Amigo' Id: {} on data source", dto.getId());
-    	else 
-    		logger.info("Creating new 'Amigo' on data source");
-    	
+        if (dto.getId() != 0)
+            logger.info("Updating 'Amigo' Id: {} on data source", dto.getId());
+        else
+            logger.info("Creating new 'Amigo' on data source");
+
         Amigo entity = this.amigoService.save(dto);
         return "redirect:/amigo";
     }
@@ -111,8 +112,8 @@ public class AmigoController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
-    	logger.info("Deleting 'Amigo' Id:{} from data source");
+        logger.info("Deleting 'Amigo' Id:{} from data source");
         this.amigoService.delete(id);
-        return "amigo-index";
+        return "redirect:/amigo";
     }
 }

@@ -14,17 +14,19 @@ import web.santiago.gcp.services.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Define as rotas e ações para interagir com a entidade Item
+ *
  * @author Santiago Brothers
  */
 @Controller
 @RequestMapping("/item")
 public class ItemController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
-	
+    private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
+
     /**
      * Servico responsavel por interagir com a base de dados da entidade Item
      */
@@ -67,6 +69,7 @@ public class ItemController {
             @RequestParam(value = "tipo", required = false) String tipo,
             @RequestParam(value = "estado", required = false) String estado,
             @RequestParam(value = "emprestados", required = false) boolean emprestados,
+            @RequestParam(value = "repetidos", required = false) boolean repetidos,
 
             // dlc
             @RequestParam(value = "localizacao", required = false) String localizacao,
@@ -96,7 +99,7 @@ public class ItemController {
             dlcs.forEach(dlc -> ids.add(dlc.getId()));
             items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
-        } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.DVDCD.getValor())){
+        } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.DVDCD.getValor())) {
 
             logger.info("Get all 'DvdCd' from data source");
             List<DvdCd> dvdCds = this.dvdCdService.getAllByAssistidos(assistidos);
@@ -136,6 +139,10 @@ public class ItemController {
 
             logger.info("Get all 'Item' from data source");
             items = this.itemService.getAll();
+        }
+
+        if (repetidos) {
+            items = items.stream().filter(e -> e.getQuantidade() > 1).collect(Collectors.toList());
         }
 
         model.addAttribute(TipoColecao.ITEM.getValor(), items);

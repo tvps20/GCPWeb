@@ -74,7 +74,7 @@ public class HqServiceTest {
     }
 
     @Test
-    public void getAllByEditoraAndUniverso(){
+    public void getAllByEditoraAndUniverso() {
         Mockito.when(this.hqRepository.findAll()).thenReturn(this.hqs);
 
         this.spyHqService.getAllByEditoraAndUniverso(this.hq.getEditora(), this.hq.getUniverso());
@@ -88,7 +88,7 @@ public class HqServiceTest {
     }
 
     @Test
-    public void createDtoFromItemHq(){
+    public void createDtoFromItemHq() {
         this.spyHqService.createDtoFromItemHq(this.item, this.hq);
 
         Mockito.verify(this.spyHqService).createDtoFromItemHq(this.item, this.hq);

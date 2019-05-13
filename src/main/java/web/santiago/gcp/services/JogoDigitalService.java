@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import web.santiago.gcp.dtos.JogoDigitalDto;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.entities.JogoDigital;
@@ -14,12 +13,13 @@ import java.util.List;
 
 /**
  * Representa a camada de comunicação entre o Controller das rotas da entidade JogoDigital e o repositorio da entidade JogoDigital
+ *
  * @author Santiago Brothers
  */
 @Service
 public class JogoDigitalService extends BaseService<JogoDigital, JogoDigitalDto> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(JogoDigitalService.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(JogoDigitalService.class);
 
     @Autowired
     public JogoDigitalService(JogoDigitalRepository jogoDigitalRepository) {
@@ -37,11 +37,12 @@ public class JogoDigitalService extends BaseService<JogoDigital, JogoDigitalDto>
 
     /**
      * Recupera todos os Jogos Digitais baseado em seu console
+     *
      * @param console Console a ser buscado
      * @return Lista JogoDigital
      */
     public List<JogoDigital> getAllByConsole(String console) {
-        if(console != null && console != "")
+        if (console != null && console != "")
             return this.getRepository().findAllByConsole(console);
 
         return this.getRepository().findAll();
@@ -56,8 +57,8 @@ public class JogoDigitalService extends BaseService<JogoDigital, JogoDigitalDto>
     @Override
     public JogoDigital mapper(JogoDigitalDto dto) {
 
-    	logger.info("Mapping 'JogoDigitalDto' to 'JogoDigital'");
-    	
+        logger.info("Mapping 'JogoDigitalDto' to 'JogoDigital'");
+
         JogoDigital jogoDigital = new JogoDigital(dto.getConsole(), dto.isFinalizado());
 
         if (dto.getItemId() != 0)
@@ -68,7 +69,8 @@ public class JogoDigitalService extends BaseService<JogoDigital, JogoDigitalDto>
 
     /**
      * Transforma uma Entidade JogoDigital e Item em um Dto JogoDigital
-     * @param item Entidade Item a ser mapeada para Dto
+     *
+     * @param item        Entidade Item a ser mapeada para Dto
      * @param jogoDigital Entidade JogoDigital a ser mapeada para Dto
      * @return JogoDigitalDto Resultado
      */

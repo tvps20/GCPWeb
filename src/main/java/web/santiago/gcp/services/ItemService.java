@@ -1,30 +1,31 @@
 package web.santiago.gcp.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import web.santiago.gcp.dtos.ItemDto;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.enuns.TipoColecao;
 import web.santiago.gcp.exceptions.EntityNotFoundException;
 import web.santiago.gcp.repositories.ItemRepository;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Representa a camada de comunicação entre o Controller das rotas da entidade Item e o repositorio da entidade Item
+ *
  * @author Santiago Brothers
  */
 @Service
 public class ItemService extends BaseService<Item, ItemDto> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
@@ -67,11 +68,12 @@ public class ItemService extends BaseService<Item, ItemDto> {
 
     /**
      * Recupera todos os items baseado em seu titulo e/ou tipo e/ou estado e/ou emprestados e/ou ids especificos
-     * @param titulo Titulo a ser buscado
-     * @param tipo Tipo a ser buscado
-     * @param estado Estado a ser buscado
+     *
+     * @param titulo      Titulo a ser buscado
+     * @param tipo        Tipo a ser buscado
+     * @param estado      Estado a ser buscado
      * @param emprestados Filtro booleano
-     * @param ids Ids especificos a serem buscados
+     * @param ids         Ids especificos a serem buscados
      * @return Lista Item
      */
     public List<Item> getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(String titulo, String tipo, String estado, boolean emprestados, List<Long> ids) {
@@ -110,7 +112,34 @@ public class ItemService extends BaseService<Item, ItemDto> {
     }
 
     /**
+     * Executa uma busca pelo items que estão na wish list e filtra por até uma semana de disponibilidade
+     *
+     * @return Lista contendo os items disponiveis em até uma semana
+     */
+    public List<Item> getWishListItems() {
+        List<Item> wishList = getRepository().findAllByWishlist(true);
+        List<Item> result = wishList.stream().filter(item -> {
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DATE, 7);
+            Date semanaQueVem = calendar.getTime();
+
+            long diff = semanaQueVem.getTime() - item.getDisponibilidade().getTime();
+            long days = diff / (1000 * 60 * 60 * 24);
+
+            if (days < 8 && days > 0)
+                return true;
+
+            return false;
+        }).collect(Collectors.toList());
+
+        return result;
+    }
+
+    /**
      * Atualiza dados de emprestimo do Item
+     *
      * @param id Item a ser emprestado
      * @return Item emprestado
      */
@@ -130,6 +159,30 @@ public class ItemService extends BaseService<Item, ItemDto> {
     }
 
     /**
+     * Executa uma busca por ids
+     *
+     * @param ids Ids de Items
+     * @return Lista de Items
+     */
+    public List<Item> getAllItemsIn(List<Long> ids) {
+        return getRepository().findAllByIdIn(ids);
+    }
+
+    /**
+     * Salva todos os items
+     *
+     * @param items Items a serem salvos
+     * @return Lista de Items atualizados
+     */
+    public List<Item> saveAll(List<Item> items) {
+        return this.repository.saveAll(items);
+    }
+
+    public List<Item> getAllItemsPorSaga(Long sagaId) {
+        return getRepository().findAllBySagaId(sagaId);
+    }
+
+    /**
      * Executa um cast do objeto repositorio generico da super classe para o tipo especifico do servico
      *
      * @return Repositorio especifico do servico
@@ -146,8 +199,8 @@ public class ItemService extends BaseService<Item, ItemDto> {
      */
     @Override
     public Item mapper(ItemDto dto) {
-    	
-    	logger.info("Mapping 'ItemDto' to 'Item'");
+
+        logger.info("Mapping 'ItemDto' to 'Item'");
 
         Item item = new Item(
                 dto.getTitulo(),

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Interface de comunicação com a base de dados JogoTabuleiro
+ *
  * @author Santiago Brothers
  */
 @Repository
@@ -15,6 +16,7 @@ public interface JogoTabuleiroRepository extends JpaRepository<JogoTabuleiro, Lo
 
     /**
      * Executa uma busca no banco baseado na marca do jogo
+     *
      * @param marca Filtro por Marca
      * @return Lista Jogo Tabuleiro
      */

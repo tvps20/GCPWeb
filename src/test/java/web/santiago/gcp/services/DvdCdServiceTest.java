@@ -71,7 +71,7 @@ public class DvdCdServiceTest {
     }
 
     @Test
-    public void getAllByAssistidos(){
+    public void getAllByAssistidos() {
         Mockito.when(this.dvdCdRepository.findAllByAssistido(true)).thenReturn(this.dvdsCds);
         Assert.assertEquals(this.dvdCdService.getAllByAssistidos(this.dvdCd.isAssistido()), this.dvdsCds);
     }
@@ -82,7 +82,7 @@ public class DvdCdServiceTest {
     }
 
     @Test
-    public void createDtoFromItemDvdCd(){
+    public void createDtoFromItemDvdCd() {
         DvdCdService spyDvdCdService = Mockito.spy(this.dvdCdService);
 
         spyDvdCdService.createDtoFromItemDvdCd(this.item, this.dvdCd);

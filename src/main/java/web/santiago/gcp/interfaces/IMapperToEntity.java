@@ -6,14 +6,14 @@ import web.santiago.gcp.exceptions.EntityNotFoundException;
 
 /**
  * Define o comportamento de transformar uma Dto em uma Entidade
- * @author Santiago Brothers
  *
  * @param <T> Dto a ser transformada
  * @param <K> Entitade resultante da transformação
+ * @author Santiago Brothers
  */
 public interface IMapperToEntity<T extends BaseDto, K extends Entity> {
 
-	/**
+    /**
      * Executa a transformação da Dto em Entidade
      *
      * @param dto Dto a ser transformada

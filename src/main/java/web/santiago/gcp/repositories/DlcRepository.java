@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Interface de comunicação com a base de dados DlcDto
+ *
  * @author Santiago Brothers
  */
 @Repository
@@ -15,6 +16,7 @@ public interface DlcRepository extends JpaRepository<Dlc, Long> {
 
     /**
      * Executa uma busca por Dlcs baseado em sua localização
+     *
      * @param localizacao Filtro de Localização
      * @return Lista de Dlcs
      */

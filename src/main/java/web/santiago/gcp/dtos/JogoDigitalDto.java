@@ -8,15 +8,18 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Define as informações enviadas pela view para o controller da entidade JogoDigital
+ *
  * @author Santiago Brothers
  */
 public class JogoDigitalDto extends ItemDto {
 
     @NotEmpty
     @NotNull
-	@Getter @Setter
+    @Getter
+    @Setter
     private String console;
-	
-	@Getter @Setter
+
+    @Getter
+    @Setter
     private boolean finalizado;
 }

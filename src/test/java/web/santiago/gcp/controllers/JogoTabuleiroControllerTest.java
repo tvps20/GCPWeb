@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.builders.JogoTabuleiroBuilder;
 import web.santiago.gcp.dtos.JogoTabuleiroDto;
@@ -57,17 +56,17 @@ public class JogoTabuleiroControllerTest {
 
     @Test
     public void create() {
-        Assert.assertEquals(this.jogoTabuleiroController.create(this.model), "jogotabuleiro-save");
+        Assert.assertEquals(this.jogoTabuleiroController.create(this.model), "jogotabuleiro/jogotabuleiro-save");
     }
 
     @Test
     public void update() {
-    	Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
+        Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
         Mockito.when(this.jogoTabuleiroService.getById(1L)).thenReturn(this.jogoTabuleiroOptional);
         Mockito.when(this.itemService.getByItemIdAndTipo(1L, TipoColecao.JOGOTABULEIRO.getValor())).thenReturn(item);
         Mockito.when(this.jogoTabuleiroService.createDtoFromItemJogoTabuleiro(item.get(), this.jogoTabuleiroOptional.get())).thenReturn(this.jogoTabuleiroDto);
-        
-        Assert.assertEquals(this.jogoTabuleiroController.update(1L, this.model), "jogotabuleiro-save");
+
+        Assert.assertEquals(this.jogoTabuleiroController.update(1L, this.model), "jogotabuleiro/jogotabuleiro-save");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.JOGOTABULEIRO.getValor()), true);
     }
 
@@ -96,14 +95,14 @@ public class JogoTabuleiroControllerTest {
     }
 
     @Test
-    public void saveError(){
+    public void saveError() {
         Mockito.when(this.jogoTabuleiroService.save(this.jogoTabuleiroDto)).thenReturn(this.jogoTabuleiro);
         Mockito.when((this.bindingResult.hasErrors())).thenReturn(true);
-        Assert.assertEquals(this.jogoTabuleiroController.save(this.jogoTabuleiroDto, this.bindingResult), "jogotabuleiro-save");
+        Assert.assertEquals(this.jogoTabuleiroController.save(this.jogoTabuleiroDto, this.bindingResult), "jogotabuleiro/jogotabuleiro-save");
     }
 
     @Test
-    public void saveIdDiferenteZero(){
+    public void saveIdDiferenteZero() {
         Mockito.when(this.jogoTabuleiroService.save(this.jogoTabuleiroDto)).thenReturn(this.jogoTabuleiro);
         this.jogoTabuleiroDto.setId(1L);
         this.jogoTabuleiroDto.setItemId(1L);
@@ -112,7 +111,7 @@ public class JogoTabuleiroControllerTest {
 
     @Test
     public void delete() {
-        Assert.assertEquals(this.jogoTabuleiroController.delete(1L), "item-index");
+        Assert.assertEquals(this.jogoTabuleiroController.delete(1L), "redirect:/item");
         Mockito.verify(this.jogoTabuleiroService, Mockito.times(1)).delete(1L);
     }
 }

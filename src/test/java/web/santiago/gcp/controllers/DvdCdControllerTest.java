@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import web.santiago.gcp.builders.DvdCdBuilder;
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.DvdCdDto;
@@ -57,17 +56,17 @@ public class DvdCdControllerTest {
 
     @Test
     public void create() {
-        Assert.assertEquals(this.dvdCdController.create(this.model), "dvdcd-save");
+        Assert.assertEquals(this.dvdCdController.create(this.model), "dvdcd/dvdcd-save");
     }
 
     @Test
     public void update() {
-    	Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
+        Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
         Mockito.when(this.dvdCdService.getById(1L)).thenReturn(this.DvdCdOptional);
         Mockito.when(this.itemService.getByItemIdAndTipo(1L, TipoColecao.DVDCD.getValor())).thenReturn(item);
         Mockito.when(this.dvdCdService.createDtoFromItemDvdCd(item.get(), this.DvdCdOptional.get())).thenReturn(this.DvdCdDto);
-        
-        Assert.assertEquals(this.dvdCdController.update(1L, this.model), "dvdcd-save");
+
+        Assert.assertEquals(this.dvdCdController.update(1L, this.model), "dvdcd/dvdcd-save");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.DVDCD.getValor()), true);
     }
 
@@ -96,14 +95,14 @@ public class DvdCdControllerTest {
     }
 
     @Test
-    public void saveError(){
+    public void saveError() {
         Mockito.when(this.dvdCdService.save(this.DvdCdDto)).thenReturn(this.DvdCd);
         Mockito.when((this.bindingResult.hasErrors())).thenReturn(true);
-        Assert.assertEquals(this.dvdCdController.save(this.DvdCdDto, this.bindingResult), "dvdcd-save");
+        Assert.assertEquals(this.dvdCdController.save(this.DvdCdDto, this.bindingResult), "dvdcd/dvdcd-save");
     }
 
     @Test
-    public void saveIdDiferenteZero(){
+    public void saveIdDiferenteZero() {
         Mockito.when(this.dvdCdService.save(this.DvdCdDto)).thenReturn(this.DvdCd);
         this.DvdCdDto.setId(1L);
         this.DvdCdDto.setItemId(1L);
@@ -112,7 +111,7 @@ public class DvdCdControllerTest {
 
     @Test
     public void delete() {
-        Assert.assertEquals(this.dvdCdController.delete(1L), "item-index");
+        Assert.assertEquals(this.dvdCdController.delete(1L), "redirect:/item");
         Mockito.verify(this.dvdCdService, Mockito.times(1)).delete(1L);
     }
 }

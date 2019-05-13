@@ -21886,7 +21886,9 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 
 .end-checkbox-col {
     display: flex;
+    flex-direction: column;
     align-items: end;
+    padding-top: 20px;
 }
 
 .padding5 {
@@ -21991,4 +21993,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
         line-height: 10vw;
         max-width: 70vw;
     }
+}
+
+.padding10 {
+    padding: 10px;
 }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Adicionar Jogo de Tabuleiro</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h3 class="mb-0">Adicionar Jogo de Tabuleiro</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="#" th:action="@{/jogotabuleiro/save}" th:object="${jogotabuleiro}" method="post">
+
+                <!-- id -->
+                <input type="text" id="input-id" th:field="*{id}" hidden>
+                <input type="text" id="input-itemId" th:field="*{itemId}" hidden>
+
+                <!-- Item -->
+                <h6 class="heading-small text-muted mb-4">Informações do Item</h6>
+                <div class="pl-lg-4">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-titulo">Titulo</label>
+                                <input type="text" id="input-titulo" class="form-control form-control-alternative"
+                                       placeholder="Titulo" th:field="*{titulo}">
+                                <small class="small-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">
+                                    Titulo Error
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-estado">Estado</label>
+                                <select id="input-estado" class="form-control form-control-alternative" placeholder=""
+                                        th:field="*{estado}">
+                                    <option value="Novo">Novo</option>
+                                    <option value="Restaurado">Restaurado</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Avariado">Avariado</option>
+                                    <option value="Danificado">Danificado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-preco">Preço</label>
+                                <input type="number" id="input-preco" class="form-control form-control-alternative"
+                                       placeholder="$" th:field="*{preco}">
+                                <small class="small-error" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">
+                                    Quantidade Error
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-qtd">Quantidade</label>
+                                <input type="number" id="input-qtd" class="form-control form-control-alternative"
+                                       placeholder="0" th:field="*{quantidade}">
+                                <small class="small-error" th:if="${#fields.hasErrors('quantidade')}"
+                                       th:errors="*{quantidade}">Quantidade Error
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-importancia">Importancia</label>
+                                <input type="number" id="input-importancia"
+                                       class="form-control form-control-alternative" placeholder="1-5"
+                                       th:field="*{importancia}">
+                                <small class="small-error" th:if="${#fields.hasErrors('importancia')}"
+                                       th:errors="*{importancia}">Importancia Error
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 center-checkbox-col">
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" id="input-wishlist" class="custom-control-input"
+                                       th:field="*{wishlist}">
+                                <label class="custom-control-label" for="input-wishlist">Lista de Desejo</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="wishlistOpt">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-url">Url</label>
+                                <input type="text" id="input-url" class="form-control form-control-alternative"
+                                       placeholder="url" th:field="*{url}">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-disponibilidade">Disponibilidade</label>
+                                <input id="input-disponibilidade" class="form-control" placeholder="Selecione a data"
+                                       type="date" th:field="*{disponibilidade}">
+                                <small class="small-error" th:if="${#fields.hasErrors('disponibilidade')}"
+                                       th:errors="*{disponibilidade}">Importancia Error
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Observações</label>
+                            <textarea rows="4" class="form-control form-control-alternative"
+                                      th:field="*{observacoes}"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4"/>
+                <!-- Jogo Tabuleiro -->
+                <h6 class="heading-small text-muted mb-4">Informações da Hq</h6>
+                <div class="pl-lg-4">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-marca">Marca</label>
+                                <input id="input-marca" class="form-control form-control-alternative"
+                                       placeholder="Marca" type="text" th:field="*{marca}">
+                                <small class="small-error" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}">
+                                    Editora Error
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4"/>
+                <div class="row align-right">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -11,10 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import web.santiago.gcp.builders.ItemBuilder;
-import web.santiago.gcp.entities.Dlc;
-import web.santiago.gcp.entities.Hq;
 import web.santiago.gcp.entities.Item;
-import web.santiago.gcp.entities.JogoTabuleiro;
 import web.santiago.gcp.enuns.TipoColecao;
 import web.santiago.gcp.services.*;
 
@@ -56,7 +53,7 @@ public class ItemControllerTest {
     public void index() {
         Mockito.when(this.itemService.getAll()).thenReturn(this.itens);
 
-        Assert.assertEquals(this.itemController.index(this.model, null, null, null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, null, null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 
@@ -64,7 +61,7 @@ public class ItemControllerTest {
     public void indexDLC() {
         Mockito.when(this.dlcService.getAllByLocalizacao(null)).thenReturn(new ArrayList());
 
-        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.DLC.getValor(), null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.DLC.getValor(), null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 
@@ -72,15 +69,15 @@ public class ItemControllerTest {
     public void indexDVDCD() {
         Mockito.when(this.dvdCdService.getAllByAssistidos(true)).thenReturn(new ArrayList());
 
-        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.DVDCD.getValor(), null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.DVDCD.getValor(), null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 
     @Test
     public void indexHQ() {
-        Mockito.when(this.hqService.getAllByEditoraAndUniverso(null,null)).thenReturn(new ArrayList());
+        Mockito.when(this.hqService.getAllByEditoraAndUniverso(null, null)).thenReturn(new ArrayList());
 
-        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.HQ.getValor(), null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.HQ.getValor(), null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 
@@ -88,7 +85,7 @@ public class ItemControllerTest {
     public void indexJogoDigital() {
         Mockito.when(this.jogoDigitalService.getAllByConsole(null)).thenReturn(new ArrayList());
 
-        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.JOGODIGITAL.getValor(), null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.JOGODIGITAL.getValor(), null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 
@@ -96,7 +93,7 @@ public class ItemControllerTest {
     public void indexJogoTabuleiro() {
         Mockito.when(this.jogoTabuleiroService.getAllByMarca(null)).thenReturn(new ArrayList());
 
-        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.JOGOTABULEIRO.getValor(), null, false, null, false,null, null, null, null), "item-index");
+        Assert.assertEquals(this.itemController.index(this.model, null, TipoColecao.JOGOTABULEIRO.getValor(), null, false, false, null, false, null, null, null, null), "item-index");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.ITEM.getValor()), true);
     }
 }

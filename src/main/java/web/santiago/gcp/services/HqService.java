@@ -4,27 +4,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import web.santiago.gcp.dtos.HqDto;
 import web.santiago.gcp.entities.Hq;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.repositories.HqRepository;
 
-import java.sql.DataTruncation;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  * Representa a camada de comunicação entre o Controller das rotas da entidade Hq e o repositorio da entidade Hq
+ *
  * @author Santiago Brothers
  */
 @Service
 public class HqService extends BaseService<Hq, HqDto> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HqService.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(HqService.class);
 
     @Autowired
     public HqService(HqRepository hqRepository) {
@@ -42,7 +39,8 @@ public class HqService extends BaseService<Hq, HqDto> {
 
     /**
      * Recupera todas as Hqs baseado em sua editora e/ou universo
-     * @param editora Editora a ser buscada
+     *
+     * @param editora  Editora a ser buscada
      * @param universo Universo a ser buscado
      * @return Lista Hq
      */
@@ -70,8 +68,8 @@ public class HqService extends BaseService<Hq, HqDto> {
     @Override
     public Hq mapper(HqDto dto) {
 
-    	logger.info("Mapping 'HqDto' to 'Hq");
-    	
+        logger.info("Mapping 'HqDto' to 'Hq");
+
         Hq hq = new Hq(dto.getNumero(), dto.getEditora(), dto.getUniverso(), dto.getSaga());
 
         if (dto.getItemId() != 0)
@@ -82,8 +80,9 @@ public class HqService extends BaseService<Hq, HqDto> {
 
     /**
      * Transforma uma Entidade Hq e Item em um Dto Hq
+     *
      * @param item Entidade Item a ser mapeada para Dto
-     * @param hq Entidade Hq a ser mapeada para Dto
+     * @param hq   Entidade Hq a ser mapeada para Dto
      * @return HqDto Resultado
      */
     public HqDto createDtoFromItemHq(Item item, Hq hq) {
