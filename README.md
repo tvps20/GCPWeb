@@ -70,3 +70,6 @@ spring.datasource.url=jdbc:mysql://localhost:3306/gcp_database_test?createDataba
 #### 2. Execute o build para gerar o arquivo .war
 #### 3. Copie o arquivo war gerado na pasta *target* para o tomcat
 > tomcat/webapps
+
+#### 7. Logar no sistema
+> Realiar um cadastro de conta na opção 'Criar uma conta nova'
