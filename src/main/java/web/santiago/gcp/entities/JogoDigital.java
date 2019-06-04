@@ -22,15 +22,15 @@ public class JogoDigital extends Entity {
 
     private String console;
 
+    private boolean finalizado;
+
+    @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Dlc> dlcs;
+
     public JogoDigital(String console, boolean finalizado) {
         this.console = console;
         this.finalizado = finalizado;
     }
-
-    private boolean finalizado;
-
-    @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Dlc> dlcs;
 
     public JogoDigital(Dlc... dlcs) {
         this.dlcs = Stream.of(dlcs).collect(Collectors.toSet());

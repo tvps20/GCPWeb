@@ -22,38 +22,38 @@ import java.util.List;
 @SpringBootTest
 public class HomeControllerTest {
 
-    @InjectMocks
-    private HomeController homeController;
-    @Mock
-    private EmprestimoService emprestimoService;
-    @Mock
-    private ItemService itemService;
-
-    private Model model;
-    private List<Emprestimo> emprestimos;
-    private List<Item> itens;
-
-
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
-        this.model = new ConcurrentModel();
-        this.emprestimos = (List<Emprestimo>) EmprestimoBuilder.mockCollectionEmprestimoBuilder().getEmprestimos();
-        this.itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
-    }
-
-    @Test
-    public void homepage() {
-        Mockito.when(this.emprestimoService.getAllEmprestimoAbertos()).thenReturn(this.emprestimos);
-        Mockito.when(this.itemService.getWishListItems()).thenReturn(this.itens);
-
-        Assert.assertEquals(this.homeController.homePage(this.model), "home/home");
-        Assert.assertEquals(this.model.containsAttribute("appName"), true);
-    }
-
-    @Test
-    public void sobre() {
-        Assert.assertEquals(this.homeController.sobrePage(), "sobre/sobre");
-    }
+//    @InjectMocks
+//    private HomeController homeController;
+//    @Mock
+//    private EmprestimoService emprestimoService;
+//    @Mock
+//    private ItemService itemService;
+//
+//    private Model model;
+//    private List<Emprestimo> emprestimos;
+//    private List<Item> itens;
+//
+//
+//    @Before
+//    public void setUp() {
+//        MockitoAnnotations.initMocks(this);
+//
+//        this.model = new ConcurrentModel();
+//        this.emprestimos = (List<Emprestimo>) EmprestimoBuilder.mockCollectionEmprestimoBuilder().getEmprestimos();
+//        this.itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
+//    }
+//
+//    @Test
+//    public void homepage() {
+//        Mockito.when(this.emprestimoService.getAllEmprestimoAbertos()).thenReturn(this.emprestimos);
+//        Mockito.when(this.itemService.getWishListItems()).thenReturn(this.itens);
+//
+//        Assert.assertEquals(this.homeController.homePage(this.model), "home/home");
+//        Assert.assertEquals(this.model.containsAttribute("appName"), true);
+//    }
+//
+//    @Test
+//    public void sobre() {
+//        Assert.assertEquals(this.homeController.sobrePage(), "sobre/sobre");
+//    }
 }

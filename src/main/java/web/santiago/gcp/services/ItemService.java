@@ -53,8 +53,8 @@ public class ItemService extends BaseService<Item, ItemDto> {
      * @param itemId Id associado a este item referente as demais tabelas de colecoes
      * @return Booleano
      */
-    public boolean deleteByItemId(long itemId) {
-        return this.getRepository().deleteByItemId(itemId);
+    public void deleteByItemId(long itemId) {
+        this.getRepository().deleteByItemId(itemId);
     }
 
     /**

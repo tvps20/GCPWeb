@@ -2,14 +2,17 @@ package web.santiago.gcp.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import web.santiago.gcp.dtos.BaseDto;
 import web.santiago.gcp.dtos.ItemDto;
 import web.santiago.gcp.entities.Entity;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.exceptions.EntityNotFoundException;
+import web.santiago.gcp.exceptions.ResourceNotFoundException;
 import web.santiago.gcp.interfaces.services.IService;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +45,15 @@ public abstract class BaseService<T extends Entity, K extends BaseDto> implement
     @Override
     public List<T> getAll() {
         return this.repository.findAll();
+    }
+
+    /**
+     * Recupera todas as entidades tipo T da base de dados
+     *
+     * @return Page com todos os elementos da base de dados
+     */
+    public Page listAll(Pageable pageable) {
+        return this.repository.findAll(pageable);
     }
 
     /**
@@ -121,5 +133,18 @@ public abstract class BaseService<T extends Entity, K extends BaseDto> implement
         dto.setId(item.getId());
 
         return dto;
+    }
+
+    /**
+     * Verificar se um Item existe na base de dados
+     *
+     * @param id Identificador da entidade a ser verificado
+     */
+    public void verifyIfExists(Long id) {
+        Optional<T> item = this.getById(id);
+
+        if (!item.isPresent()) {
+            throw new ResourceNotFoundException("Não existe um item para o ID: " + id);
+        }
     }
 }

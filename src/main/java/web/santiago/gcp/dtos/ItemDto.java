@@ -48,6 +48,7 @@ public class ItemDto extends BaseDto {
 
     // Relacionamento com os demais items do banco
     private long itemId;
+
     private String tipo;
 
     private long sagaId;

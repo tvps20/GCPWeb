@@ -20,17 +20,16 @@ public class UserDto extends BaseDto {
     @Setter
     private String password;
 
-    @NotNull
-    @NotEmpty
+
     @Getter
     @Setter
     private String confirmaPassword;
 
     @Getter
     @Setter
-    private String role;
+    private boolean admin;
 
     public UserDto() {
-        this.role = "USER";
+        this.admin = false;
     }
 }

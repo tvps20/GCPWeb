@@ -20,15 +20,15 @@ public class Saga extends Entity {
 
     private String titulo;
 
+    @OneToMany(mappedBy = "saga", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Item> items;
+
     public Saga(String titulo) {
         this.titulo = titulo;
     }
 
     public Saga() {
     }
-
-    @OneToMany(mappedBy = "saga", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Item> items;
 
     public long wishListItem() {
         return this.items.stream().filter(item -> item.isWishlist()).count();

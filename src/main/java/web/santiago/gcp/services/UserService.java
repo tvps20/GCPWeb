@@ -35,7 +35,6 @@ public class UserService extends BaseService<User, UserDto> {
         logger.info("Mapping 'UserDto' to 'User'");
 
         User entity = new User(dto.getUsername(), dto.getPassword());
-        entity.setRole(dto.getRole());
 
         if (dto.getId() != 0)
             entity.setId(dto.getId());

@@ -38,7 +38,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      * @param id Id associado a este item referente as demais tabelas de colecoes
      * @return Booleano
      */
-    boolean deleteByItemId(Long id);
+    void deleteByItemId(Long id);
 
     /**
      * Executa uma busca para saber quais são os 10 itens mais importantes

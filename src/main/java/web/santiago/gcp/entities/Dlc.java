@@ -2,6 +2,7 @@ package web.santiago.gcp.entities;
 
 import lombok.Data;
 
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -23,7 +24,7 @@ public class Dlc extends Entity {
 
     private String localizacao;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
     private JogoDigital jogo;
 }
