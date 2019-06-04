@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.ItemDto;
-import web.santiago.gcp.entities.Emprestimo;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.enuns.TipoColecao;
 import web.santiago.gcp.exceptions.EntityNotFoundException;
@@ -72,7 +71,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndSemIds(){
+    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndSemIds() {
         List<Long> ids = new ArrayList<Long>();
         this.item.setEmprestado(true);
 
@@ -82,7 +81,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(){
+    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds() {
         List<Long> ids = new ArrayList<Long>();
         ids.add(1L);
 
@@ -97,7 +96,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void mapperEmprestado(){
+    public void mapperEmprestado() {
         this.itemDto.setEmprestado(true);
         this.itemDto.setId(1L);
         this.item.setEmprestado(true);
@@ -115,7 +114,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getAllByItemTipo(){
+    public void getAllByItemTipo() {
         List<Item> itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
         Mockito.when(this.itemService.getAllByItemTipo(TipoColecao.DLC)).thenReturn(itens);
 
@@ -129,7 +128,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getTop10ByImportancia(){
+    public void getTop10ByImportancia() {
         List<Item> itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
 
         for (Item item : itens) {
@@ -144,7 +143,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getTop10ByEmprestimos(){
+    public void getTop10ByEmprestimos() {
         List<Item> itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
 
         for (Item item : itens) {
@@ -159,14 +158,44 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void emprestarItem(){
+    public void emprestarItem() {
         Mockito.when(this.itemRepository.findById(this.item.getItemId())).thenReturn(this.itemOptional);
 
         Assert.assertEquals(this.itemService.emprestarItem(this.item.getItemId()), this.itemOptional.get());
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void emprestarItemException(){
-          Assert.assertEquals(this.itemService.emprestarItem(this.item.getItemId()), this.itemOptional.get());
+    public void emprestarItemException() {
+        Assert.assertEquals(this.itemService.emprestarItem(this.item.getItemId()), this.itemOptional.get());
+    }
+
+    @Test
+    public void getWishListItems() {
+        Mockito.when(this.itemRepository.findAllByWishlist(true)).thenReturn(this.itens);
+
+        Assert.assertEquals(this.itemService.getWishListItems(), this.itens);
+    }
+
+    @Test
+    public void getAllItemsIn() {
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(1L);
+        Mockito.when(this.itemRepository.findAllByIdIn(Mockito.anyList())).thenReturn(this.itens);
+
+        Assert.assertEquals(this.itemService.getAllItemsIn(ids), this.itens);
+    }
+
+    @Test
+    public void saveAll() {
+        Mockito.when(this.itemRepository.saveAll(this.itens)).thenReturn(this.itens);
+
+        Assert.assertEquals(this.itemService.saveAll(this.itens), this.itens);
+    }
+
+    @Test
+    public void getAllItemsPorSaga() {
+        Mockito.when(this.itemRepository.findAllBySagaId(Mockito.anyLong())).thenReturn(this.itens);
+
+        Assert.assertEquals(this.itemService.getAllItemsPorSaga(1L), this.itens);
     }
 }

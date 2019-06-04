@@ -14,9 +14,6 @@
                 <div class="col-8">
                     <h3 class="mb-0">Adicionar DVD/CD</h3>
                 </div>
-                <!--<div class="col-4 text-right">
-                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
-                </div>-->
             </div>
         </div>
         <div class="card-body">
@@ -55,6 +52,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="input-preco">Preço</label>
                                 <input type="number" id="input-preco" class="form-control form-control-alternative" placeholder="$" th:field="*{preco}">
+                                <small class="small-error" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">Quantidade Error</small>
                             </div>
                         </div>
                         <div class="col-lg-2">
@@ -74,17 +72,11 @@
                         <div class="col-lg-2 center-checkbox-col">
                             <div class="custom-control custom-checkbox mb-3">
                                 <input type="checkbox" id="input-wishlist" class="custom-control-input" th:field="*{wishlist}">
-                                <label class="custom-control-label" for="input-wishlist">Wishlist</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 center-checkbox-col">
-                            <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" id="input-emprestado" class="custom-control-input" th:field="*{emprestado}">
-                                <label class="custom-control-label" for="input-emprestado">Emprestado</label>
+                                <label class="custom-control-label" for="input-wishlist">Lista de Desejo</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="wishlistOpt">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-url">Url</label>
@@ -95,6 +87,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="input-disponibilidade">Disponibilidade</label>
                                 <input id="input-disponibilidade" class="form-control" placeholder="Selecione a data" type="date" th:field="*{disponibilidade}">
+                                <small class="small-error" th:if="${#fields.hasErrors('disponibilidade')}" th:errors="*{disponibilidade}">Importancia Error</small>
                             </div>
                         </div>
                     </div>
@@ -120,7 +113,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="input-conteudo">Conteudo</label>
                                 <input id="input-conteudo" class="form-control form-control-alternative" placeholder="Conteudo" type="text" th:field="*{conteudo}">
-                                <small class="small-error" class="small-error" th:if="${#fields.hasErrors('conteudo')}" th:errors="*{conteudo}">Conteudo Error</small>
+                                <small class="small-error" th:if="${#fields.hasErrors('conteudo')}" th:errors="*{conteudo}">Conteudo Error</small>
                             </div>
                         </div>
                         <div class="col-lg-4 center-checkbox-col">

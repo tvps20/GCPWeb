@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Interface de comunicação com a base de dados JogoDigital
+ *
  * @author Santiago Brothers
  */
 @Repository
@@ -15,6 +16,7 @@ public interface JogoDigitalRepository extends JpaRepository<JogoDigital, Long> 
 
     /**
      * Executa uma busca para recuperar todos os Jogos Digitais baseado em um Console
+     *
      * @param console Console a ser buscado
      * @return Lista Jogo Digital
      */

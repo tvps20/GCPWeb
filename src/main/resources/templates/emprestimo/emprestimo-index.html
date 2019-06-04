@@ -14,9 +14,6 @@
                 <div class="col-8">
                     <h3 class="mb-0">Emprestar Item</h3>
                 </div>
-                <!--<div class="col-4 text-right">
-                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
-                </div>-->
             </div>
         </div>
         <div class="card-body">
@@ -44,7 +41,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-amigo">Amigo</label>
                                 <select id="input-amigo" class="form-control form-control-alternative" placeholder="" th:field="*{amigo}">
@@ -53,16 +50,11 @@
                                 <small class="small-error" th:if="${#fields.hasErrors('amigo')}" th:errors="*{amigo}">Amigo Error</small>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-devolucao">Devolução</label>
                                 <input id="input-devolucao" class="form-control" placeholder="Selecione a data" type="date" th:field="*{devolucao}">
-                            </div>
-                        </div>
-                        <div class="col-lg-2 center-checkbox-col">
-                            <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" id="input-devolvido" class="custom-control-input" th:field="*{devolvido}">
-                                <label class="custom-control-label" for="input-devolvido">Devolvido</label>
+                                <small class="small-error" th:if="${#fields.hasErrors('devolucao')}" th:errors="*{devolucao}">Devolucao Error</small>
                             </div>
                         </div>
                     </div>

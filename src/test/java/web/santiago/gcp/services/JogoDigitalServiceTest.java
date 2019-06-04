@@ -71,13 +71,13 @@ public class JogoDigitalServiceTest {
     }
 
     @Test
-    public void getAllByConsole(){
+    public void getAllByConsole() {
         Mockito.when(this.jogoDigitalRepository.findAllByConsole(this.jogoDigital.getConsole())).thenReturn(this.jogosDigitais);
         Assert.assertEquals(this.jogoDigitalService.getAllByConsole(this.jogoDigital.getConsole()), this.jogosDigitais);
     }
 
     @Test
-    public void getAllByConsoleNull(){
+    public void getAllByConsoleNull() {
         Mockito.when(this.jogoDigitalRepository.findAll()).thenReturn(this.jogosDigitais);
         Assert.assertEquals(this.jogoDigitalService.getAllByConsole(null), this.jogosDigitais);
     }
@@ -88,7 +88,7 @@ public class JogoDigitalServiceTest {
     }
 
     @Test
-    public void createDtoFromItemJogoDigital(){
+    public void createDtoFromItemJogoDigital() {
         JogoDigitalService spyJogoDigitalService = Mockito.spy(this.jogoDigitalService);
 
         spyJogoDigitalService.createDtoFromItemJogoDigital(this.item, this.jogoDigital);

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Interface de comunicação com a base de dados DvdCd
+ *
  * @author Santiago Brothers
  */
 @Repository
@@ -15,6 +16,7 @@ public interface DvdCdRepository extends JpaRepository<DvdCd, Long> {
 
     /**
      * Executa uma busca por Dvds/Cds que ja foram assistidos ou não
+     *
      * @param assistidos Booleano para assistidos ou não assistidos
      * @return Lista de DvdCd
      */

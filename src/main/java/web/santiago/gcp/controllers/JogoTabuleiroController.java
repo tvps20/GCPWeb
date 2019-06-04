@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import web.santiago.gcp.dtos.JogoDigitalDto;
 import web.santiago.gcp.dtos.JogoTabuleiroDto;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.entities.JogoTabuleiro;
@@ -20,13 +19,14 @@ import java.util.Optional;
 
 /**
  * Define as rotas e ações para interagir com a entidade JogoTabuleiro
+ *
  * @author Santiago Brothers
  */
 @Controller
 @RequestMapping("/jogotabuleiro")
 public class JogoTabuleiroController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(JogoTabuleiroController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(JogoTabuleiroController.class);
 
     /**
      * Servico responsavel por interagir com a base de dados da entidade JogoTabuleiro
@@ -48,7 +48,7 @@ public class JogoTabuleiroController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute(TipoColecao.JOGOTABULEIRO.getValor(), new JogoTabuleiroDto());
-        return "jogotabuleiro-save";
+        return "jogotabuleiro/jogotabuleiro-save";
     }
 
     /**
@@ -61,24 +61,24 @@ public class JogoTabuleiroController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model) {
 
-    	logger.info("Find 'JogoTabuleiro' Id: {} on data source", id);
+        logger.info("Find 'JogoTabuleiro' Id: {} on data source", id);
         Optional<JogoTabuleiro> jogoTabuleiro = this.jogoTabuleiroService.getById(id);
         if (!jogoTabuleiro.isPresent()) {
-        	logger.error("'JogoTabuleiro' Id: {} not found", id);
+            logger.error("'JogoTabuleiro' Id: {} not found", id);
             return "not-found";
         }
 
         logger.info("Find 'Item' related with 'JogoTabuleiro' on data source");
         Optional<Item> item = this.itemService.getByItemIdAndTipo(id, TipoColecao.JOGOTABULEIRO.getValor());
         if (!item.isPresent()) {
-        	logger.error("'Item'not found");
+            logger.error("'Item'not found");
             return "not-found";
         }
 
         JogoTabuleiroDto dto = this.jogoTabuleiroService.createDtoFromItemJogoTabuleiro(item.get(), jogoTabuleiro.get());
         model.addAttribute(TipoColecao.JOGOTABULEIRO.getValor(), dto);
 
-        return "jogotabuleiro-save";
+        return "jogotabuleiro/jogotabuleiro-save";
     }
 
     /**
@@ -91,23 +91,23 @@ public class JogoTabuleiroController {
     public String save(@Valid @ModelAttribute("jogotabuleiro") JogoTabuleiroDto dto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "jogotabuleiro-save";
+            return "jogotabuleiro/jogotabuleiro-save";
         }
 
-    	if (dto.getItemId() != 0)
-    		logger.info("Updating 'JogoTabuleiro' Id: {} on data source", dto.getItemId());
-    	else 
-    		logger.info("Creating new 'JogoTabuleiro' on data source");
+        if (dto.getItemId() != 0)
+            logger.info("Updating 'JogoTabuleiro' Id: {} on data source", dto.getItemId());
+        else
+            logger.info("Creating new 'JogoTabuleiro' on data source");
 
         JogoTabuleiro jogoTabuleiroEntity = this.jogoTabuleiroService.save(dto);
 
         dto.setItemId(jogoTabuleiroEntity.getId());
         dto.setTipo("jogotabuleiro");
-        
+
         if (dto.getId() != 0)
-    		logger.info("Updating 'Item' Id: {} on data source", dto.getId());
-    	else 
-    		logger.info("Creating new 'Item' on data source");
+            logger.info("Updating 'Item' Id: {} on data source", dto.getId());
+        else
+            logger.info("Creating new 'Item' on data source");
 
         this.itemService.save(dto);
 
@@ -123,12 +123,12 @@ public class JogoTabuleiroController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
-    	logger.info("Deleting 'JogoTabuleiro' Id:{} from data source", id);
+        logger.info("Deleting 'JogoTabuleiro' Id:{} from data source", id);
         this.jogoTabuleiroService.delete(id);
-        
+
         logger.info("Deleting 'Item' from data source");
         this.itemService.deleteByItemId(id);
 
-        return "item-index";
+        return "redirect:/item";
     }
 }

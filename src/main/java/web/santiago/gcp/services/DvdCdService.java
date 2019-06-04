@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import web.santiago.gcp.dtos.DvdCdDto;
 import web.santiago.gcp.entities.DvdCd;
 import web.santiago.gcp.entities.Item;
@@ -14,12 +13,13 @@ import java.util.List;
 
 /**
  * Representa a camada de comunicação entre o Controller das rotas da entidade DvdCd e o repositorio da entidade DvdCd
+ *
  * @author Santiago Brothers
  */
 @Service
 public class DvdCdService extends BaseService<DvdCd, DvdCdDto> {
-	
-	private static final Logger logger = LoggerFactory.getLogger(DvdCdService.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(DvdCdService.class);
 
     @Autowired
     public DvdCdService(DvdCdRepository dvdCdRepository) {
@@ -37,6 +37,7 @@ public class DvdCdService extends BaseService<DvdCd, DvdCdDto> {
 
     /**
      * Recupera todos os Dvd/Cd assistidos ou não
+     *
      * @param assistidos Filtro booleano
      * @return Lista DvdCd
      */
@@ -52,9 +53,9 @@ public class DvdCdService extends BaseService<DvdCd, DvdCdDto> {
      */
     @Override
     public DvdCd mapper(DvdCdDto dto) {
-    	
-    	logger.info("Mapping 'DvdCdDto' to 'DvdCd'");
-    	
+
+        logger.info("Mapping 'DvdCdDto' to 'DvdCd'");
+
         DvdCd dvdcd = new DvdCd(dto.getMarca(), dto.getConteudo(), dto.isAssistido());
 
         if (dto.getItemId() != 0)
@@ -65,7 +66,8 @@ public class DvdCdService extends BaseService<DvdCd, DvdCdDto> {
 
     /**
      * Transforma uma Entidade DvdCd e Item em um Dto DvdCd
-     * @param item Entidade Item a ser mapeada para Dto
+     *
+     * @param item  Entidade Item a ser mapeada para Dto
      * @param dvdCd Entidade DvdCd a ser mapeada para Dto
      * @return DvdCdDto Resultado
      */

@@ -21,6 +21,7 @@ import java.util.Optional;
 
 /**
  * Define as rotas e ações para interagir com a entidade Emprestimo
+ *
  * @author Santiago Brothers
  */
 @Controller
@@ -53,6 +54,7 @@ public class EmprestimoController {
 
     /**
      * Renderiza a view de emprestar um item
+     *
      * @param id Item a ser emprestado
      * @return
      */
@@ -71,19 +73,25 @@ public class EmprestimoController {
         model.addAttribute("item", item.get());
         model.addAttribute("emprestimo", new EmprestimoDto(item.get().getId()));
 
-        return "emprestimo-index";
+        return "emprestimo/emprestimo-index";
     }
 
     /**
      * Salva um novo emprestimo no banco de dados
+     *
      * @param dto Objeto de transferencia de dados enviado pela view
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("emprestimo") EmprestimoDto dto, BindingResult bindingResult) {
+    public String save(@Valid @ModelAttribute("emprestimo") EmprestimoDto dto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            return "emprestimo-index";
+            List<Amigo> amigos = this.amigoService.getAll();
+            Optional<Item> item = this.itemService.getById(dto.getItem());
+            model.addAttribute("amigos", amigos);
+            model.addAttribute("item", item.get());
+
+            return "emprestimo/emprestimo-index";
         }
 
         logger.info("Creating new 'Emprestimo' on data source");
@@ -92,5 +100,33 @@ public class EmprestimoController {
         this.itemService.emprestarItem(dto.getItem());
 
         return "redirect:/item";
+    }
+
+    @GetMapping("/devolver/{id}")
+    public String devolver(@PathVariable long id, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "returnUrl", required = false) String returnUrl) {
+
+        Emprestimo emprestimo;
+        Optional<Emprestimo> entity;
+
+        if (type != null && type.equals("item")) {
+            entity = this.emprestimoService.getEmprestimoNaoDevolvidoByItemId(id);
+        } else {
+            entity = this.emprestimoService.getById(id);
+        }
+
+        if (!entity.isPresent()) {
+            logger.error("Emprestimo not found. Id: {}", id);
+            return "not-found";
+        }
+
+        emprestimo = entity.get();
+        if (!emprestimo.isDevolvido()) {
+            this.emprestimoService.devolver(emprestimo);
+        }
+
+        if (returnUrl != null)
+            return "redirect:/" + returnUrl;
+
+        return "redirect:/";
     }
 }

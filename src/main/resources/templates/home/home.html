@@ -96,6 +96,90 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="padding10"></div>
+
+                <div class="row">
+
+                    <!-- WishiList -->
+                    <div class="col-md-12">
+
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">WishList</h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <h3 class="mb-0" th:text="'Total: $'+ ${wishlistSum}"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <th scope="col">Titulo</th>
+                                        <th scope="col">Tipo</th>
+                                        <th scope="col">Disponibilidade</th>
+                                        <th scope="col">Preco</th>
+                                        <th scope="col"></th>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${wishlist}">
+                                        <th scope="row" th:text="${item.titulo}"></th>
+                                        <td th:text="${item.tipo}"></td>
+                                        <td th:text="${#dates.format(item.disponibilidade, 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${item.preco}"></td>
+                                        <td>
+                                            <a th:if="${item.url != null && !item.url.equals('')}" th:href="@{${item.url}}" target="_blank" class="btn btn-sm btn-primary">Comprar</a>
+                                            <button th:if="${item.url == null || item.url.equals('')} " class="btn btn-sm btn-primary" disabled>Comprar</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="padding10"></div>
+
+                <div class="row">
+                    <!-- Emprestados -->
+                    <div class="col-md-12">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="mb-0">Ainda não devolvidos</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                    <th scope="col">Titulo</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Devolução</th>
+                                    <th scope="col">Amigo</th>
+                                    <th scope="col"></th>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="emprestimo : ${emprestimos}">
+                                        <th scope="row" th:text="${emprestimo.item.titulo}"></th>
+                                        <td th:text="${emprestimo.item.tipo}"></td>
+                                        <td th:text="${#dates.format(emprestimo.devolucao, 'dd-MM-yyyy')}"></td>
+                                        <td th:text="${emprestimo.amigo.nome}"></td>
+                                        <td>
+                                            <a th:href="@{'/emprestimo/devolver/' + ${emprestimo.id}}" class="btn btn-sm btn-success">Devolver</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </body>

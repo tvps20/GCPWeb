@@ -1,24 +1,16 @@
 package web.santiago.gcp.entities;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import lombok.Data;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Representa as propriedades bases que todas as entidades devem possuir
+ *
  * @author Santiago Brothers
  */
 @MappedSuperclass

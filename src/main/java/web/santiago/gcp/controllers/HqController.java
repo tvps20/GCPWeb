@@ -19,13 +19,14 @@ import java.util.Optional;
 
 /**
  * Define as rotas e ações para interagir com a entidade Hq
+ *
  * @author Santiago Brothers
  */
 @Controller
 @RequestMapping("/hq")
 public class HqController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HqController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(HqController.class);
 
     /**
      * Servico responsavel por interagir com a base de dados da entidade Hq
@@ -47,7 +48,7 @@ public class HqController {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute(TipoColecao.HQ.getValor(), new HqDto());
-        return "hq-save";
+        return "hq/hq-save";
     }
 
     /**
@@ -60,24 +61,24 @@ public class HqController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model) {
 
-    	logger.info("Find 'Hq' Id: {} on data source", id);
+        logger.info("Find 'Hq' Id: {} on data source", id);
         Optional<Hq> hq = this.hqService.getById(id);
         if (!hq.isPresent()) {
-        	logger.error("'Hq' Id: {} not found", id);
+            logger.error("'Hq' Id: {} not found", id);
             return "not-found";
         }
 
         logger.info("Find 'Item' related with 'Hq' on data source");
         Optional<Item> item = this.itemService.getByItemIdAndTipo(id, TipoColecao.HQ.getValor());
         if (!item.isPresent()) {
-        	logger.error("'Item'not found");
+            logger.error("'Item'not found");
             return "not-found";
         }
 
         HqDto dto = this.hqService.createDtoFromItemHq(item.get(), hq.get());
         model.addAttribute(TipoColecao.HQ.getValor(), dto);
 
-        return "hq-save";
+        return "hq/hq-save";
     }
 
     /**
@@ -90,24 +91,24 @@ public class HqController {
     public String save(@Valid @ModelAttribute("hq") HqDto dto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "hq-save";
+            return "hq/hq-save";
         }
 
-    	if (dto.getItemId() != 0)
-    		logger.info("Updating 'Hq' Id: {} on data source", dto.getItemId());
-    	else 
-    		logger.info("Creating new 'Hq' on data source");
-    	
+        if (dto.getItemId() != 0)
+            logger.info("Updating 'Hq' Id: {} on data source", dto.getItemId());
+        else
+            logger.info("Creating new 'Hq' on data source");
+
         Hq hqEntity = this.hqService.save(dto);
 
         dto.setItemId(hqEntity.getId());
         dto.setTipo("hq");
-        
+
         if (dto.getId() != 0)
-    		logger.info("Updating 'Item' Id: {} on data source", dto.getId());
-    	else 
-    		logger.info("Creating new 'Item' on data source");
-        
+            logger.info("Updating 'Item' Id: {} on data source", dto.getId());
+        else
+            logger.info("Creating new 'Item' on data source");
+
 
         this.itemService.save(dto);
 
@@ -123,9 +124,9 @@ public class HqController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
-    	logger.info("Deleting 'Hq' Id:{} from data source", id);
+        logger.info("Deleting 'Hq' Id:{} from data source", id);
         this.hqService.delete(id);
-        
+
         logger.info("Deleting 'Item' from data source");
         this.itemService.deleteByItemId(id);
 

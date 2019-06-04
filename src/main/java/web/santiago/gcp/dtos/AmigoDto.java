@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Define as informações enviadas pela view para o controller da entidade Amigo
+ *
  * @author Santiago Brothers
  */
 @Data

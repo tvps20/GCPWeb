@@ -73,7 +73,7 @@ public class JogoDigitalRepositoryTest {
     }
 
     @Test
-    public void findAllByConsole(){
+    public void findAllByConsole() {
         List jogos = this.jogoDigitalRepository.findAllByConsole(null);
 
         Assert.assertEquals(this.jogoDigitalRepository.findAllByConsole(null).size(), 0);

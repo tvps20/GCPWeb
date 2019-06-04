@@ -1,15 +1,16 @@
 package web.santiago.gcp.entities;
 
-import java.util.List;
-
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 /**
  * Representa um agrupamento de items na coleção
+ *
  * @author Santiago Brothers
  */
 @Data
@@ -26,6 +27,10 @@ public class Saga extends Entity {
     public Saga() {
     }
 
-    @OneToMany(mappedBy = "saga", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "saga", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> items;
+
+    public long wishListItem() {
+        return this.items.stream().filter(item -> item.isWishlist()).count();
+    }
 }

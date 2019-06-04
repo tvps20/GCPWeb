@@ -1,5 +1,12 @@
 package web.santiago.gcp.entities;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -7,19 +14,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import web.santiago.gcp.enuns.EstadoItem;
-import web.santiago.gcp.enuns.TipoColecao;
-
 /**
  * Representa um objeto a ser guardado na coleção. Entidade generica para qualquer objeto
  * Possui propriedades para linkar suas informações as informações do seu objeto relacionado
+ *
  * @author Santiago Brothers
  */
 @Data
@@ -55,7 +53,7 @@ public class Item extends Entity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private Set<Emprestimo> emprestimos;
 
-    public Item(String wow, EstadoItem bom, BigDecimal bigDecimal, String item_novo, boolean b, int i, int i1, double v, boolean b1, Date date, String s, int i2, TipoColecao jogodigital, int i3, Emprestimo... emprestimos) {
+    public Item(Emprestimo... emprestimos) {
         this.emprestimos = Stream.of(emprestimos).collect(Collectors.toSet());
         this.emprestimos.forEach(x -> x.setItem(this));
     }
@@ -79,5 +77,10 @@ public class Item extends Entity {
     }
 
     public Item() {
+    }
+
+    @Override
+    public String toString() {
+        return this.titulo;
     }
 }

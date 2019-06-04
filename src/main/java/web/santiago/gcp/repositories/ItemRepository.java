@@ -3,13 +3,13 @@ package web.santiago.gcp.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import web.santiago.gcp.entities.Item;
-import web.santiago.gcp.enuns.TipoColecao;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Interface de comunicação com a base de dados Item
+ *
  * @author Santiago Brothers
  */
 @Repository
@@ -26,6 +26,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     /**
      * Executa uma busca para recuperar todos os items de um determinado tipo
+     *
      * @param tipo Tipo do item a ser buscado
      * @return Lista de Item de um unico tipo
      */
@@ -55,8 +56,33 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     /**
      * Executa uma busca para recuperar todos os items de uma lista de ids.
+     *
      * @param ids Lista de Ids
      * @return Lista de Item
      */
     List<Item> findAllByItemIdIn(List<Long> ids);
+
+    /**
+     * Executa uma busca para recuperar todos os items de uma lista de ids.
+     *
+     * @param ids Lista de Ids
+     * @return Lista de Item
+     */
+    List<Item> findAllByIdIn(List<Long> ids);
+
+    /**
+     * Executa uma busca para recuperar todos os items de uma saga
+     *
+     * @param id Id da Saga
+     * @return Lista de Items
+     */
+    List<Item> findAllBySagaId(Long id);
+
+    /**
+     * Executa uma busca para recuperar todos os items que estão na wishlist
+     *
+     * @param wishilist
+     * @return
+     */
+    List<Item> findAllByWishlist(boolean wishilist);
 }

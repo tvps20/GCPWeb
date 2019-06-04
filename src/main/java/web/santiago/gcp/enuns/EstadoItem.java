@@ -2,6 +2,7 @@ package web.santiago.gcp.enuns;
 
 /**
  * Define os possiveis estados dos items
+ *
  * @author Santiago Brothers
  */
 public enum EstadoItem {

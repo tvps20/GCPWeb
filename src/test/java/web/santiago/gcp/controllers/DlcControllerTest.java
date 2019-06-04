@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
 import web.santiago.gcp.builders.DlcBuilder;
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.DlcDto;
@@ -57,17 +56,17 @@ public class DlcControllerTest {
 
     @Test
     public void create() {
-        Assert.assertEquals(this.dlcController.create(this.model), "dlc-save");
+        Assert.assertEquals(this.dlcController.create(this.model), "dlc/dlc-save");
     }
 
     @Test
     public void update() {
-    	Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
+        Optional<Item> item = ItemBuilder.mockItemBuilder().getItemOptional();
         Mockito.when(this.dlcService.getById(1L)).thenReturn(this.dlcOptional);
         Mockito.when(this.itemService.getByItemIdAndTipo(1L, TipoColecao.DLC.getValor())).thenReturn(item);
         Mockito.when(this.dlcService.createDtoFromItemDlc(item.get(), this.dlcOptional.get())).thenReturn(this.dlcDto);
-        
-        Assert.assertEquals(this.dlcController.update(1L, this.model), "dlc-save");
+
+        Assert.assertEquals(this.dlcController.update(1L, this.model), "dlc/dlc-save");
         Assert.assertEquals(this.model.containsAttribute(TipoColecao.DLC.getValor()), true);
         Assert.assertEquals(this.model.containsAttribute("jogos"), true);
     }
@@ -95,27 +94,27 @@ public class DlcControllerTest {
     public void save() {
         Mockito.when(this.dlcService.save(this.dlcDto)).thenReturn(this.dlc);
         this.dlcDto.setItemId(0L);
-        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult), "redirect:/item");
+        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult, this.model), "redirect:/item");
     }
 
     @Test
-    public void saveError(){
+    public void saveError() {
         Mockito.when(this.dlcService.save(this.dlcDto)).thenReturn(this.dlc);
         Mockito.when((this.bindingResult.hasErrors())).thenReturn(true);
-        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult), "dlc-save");
+        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult, this.model), "dlc/dlc-save");
     }
 
     @Test
-    public void saveIdDiferenteZero(){
+    public void saveIdDiferenteZero() {
         Mockito.when(this.dlcService.save(this.dlcDto)).thenReturn(this.dlc);
         this.dlcDto.setId(1L);
         this.dlcDto.setItemId(1L);
-        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult), "redirect:/item");
+        Assert.assertEquals(this.dlcController.save(this.dlcDto, this.bindingResult, this.model), "redirect:/item");
     }
 
     @Test
     public void delete() {
-        Assert.assertEquals(this.dlcController.delete(1L), "item-index");
+        Assert.assertEquals(this.dlcController.delete(1L), "redirect:/item");
         Mockito.verify(this.dlcService, Mockito.times(1)).delete(1L);
     }
 }

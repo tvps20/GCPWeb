@@ -14,9 +14,6 @@
                 <div class="col-8">
                     <h3 class="mb-0">Adicionar Jogo de Tabuleiro</h3>
                 </div>
-                <!--<div class="col-4 text-right">
-                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
-                </div>-->
             </div>
         </div>
         <div class="card-body">
@@ -33,14 +30,18 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-titulo">Titulo</label>
-                                <input type="text" id="input-titulo" class="form-control form-control-alternative" placeholder="Titulo" th:field="*{titulo}">
-                                <small class="small-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">Titulo Error</small>
+                                <input type="text" id="input-titulo" class="form-control form-control-alternative"
+                                       placeholder="Titulo" th:field="*{titulo}">
+                                <small class="small-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}">
+                                    Titulo Error
+                                </small>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-estado">Estado</label>
-                                <select id="input-estado" class="form-control form-control-alternative" placeholder="" th:field="*{estado}">
+                                <select id="input-estado" class="form-control form-control-alternative" placeholder=""
+                                        th:field="*{estado}">
                                     <option value="Novo">Novo</option>
                                     <option value="Restaurado">Restaurado</option>
                                     <option value="Regular">Regular</option>
@@ -54,58 +55,70 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-preco">Preço</label>
-                                <input type="number" id="input-preco" class="form-control form-control-alternative" placeholder="$" th:field="*{preco}">
+                                <input type="number" id="input-preco" class="form-control form-control-alternative"
+                                       placeholder="$" th:field="*{preco}">
+                                <small class="small-error" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">
+                                    Quantidade Error
+                                </small>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-qtd">Quantidade</label>
-                                <input type="number" id="input-qtd" class="form-control form-control-alternative" placeholder="0" th:field="*{quantidade}">
-                                <small class="small-error" th:if="${#fields.hasErrors('quantidade')}" th:errors="*{quantidade}">Quantidade Error</small>
+                                <input type="number" id="input-qtd" class="form-control form-control-alternative"
+                                       placeholder="0" th:field="*{quantidade}">
+                                <small class="small-error" th:if="${#fields.hasErrors('quantidade')}"
+                                       th:errors="*{quantidade}">Quantidade Error
+                                </small>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-importancia">Importancia</label>
-                                <input type="number" id="input-importancia" class="form-control form-control-alternative" placeholder="1-5" th:field="*{importancia}">
-                                <small class="small-error" th:if="${#fields.hasErrors('importancia')}" th:errors="*{importancia}">Importancia Error</small>
+                                <input type="number" id="input-importancia"
+                                       class="form-control form-control-alternative" placeholder="1-5"
+                                       th:field="*{importancia}">
+                                <small class="small-error" th:if="${#fields.hasErrors('importancia')}"
+                                       th:errors="*{importancia}">Importancia Error
+                                </small>
                             </div>
                         </div>
                         <div class="col-lg-2 center-checkbox-col">
                             <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" id="input-wishlist" class="custom-control-input" th:field="*{wishlist}">
-                                <label class="custom-control-label" for="input-wishlist">Wishlist</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 center-checkbox-col">
-                            <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" id="input-emprestado" class="custom-control-input" th:field="*{emprestado}">
-                                <label class="custom-control-label" for="input-emprestado">Emprestado</label>
+                                <input type="checkbox" id="input-wishlist" class="custom-control-input"
+                                       th:field="*{wishlist}">
+                                <label class="custom-control-label" for="input-wishlist">Lista de Desejo</label>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="wishlistOpt">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-url">Url</label>
-                                <input type="text" id="input-url" class="form-control form-control-alternative" placeholder="url" th:field="*{url}">
+                                <input type="text" id="input-url" class="form-control form-control-alternative"
+                                       placeholder="url" th:field="*{url}">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-disponibilidade">Disponibilidade</label>
-                                <input id="input-disponibilidade" class="form-control" placeholder="Selecione a data" type="date" th:field="*{disponibilidade}">
+                                <input id="input-disponibilidade" class="form-control" placeholder="Selecione a data"
+                                       type="date" th:field="*{disponibilidade}">
+                                <small class="small-error" th:if="${#fields.hasErrors('disponibilidade')}"
+                                       th:errors="*{disponibilidade}">Importancia Error
+                                </small>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <label>Observações</label>
-                            <textarea rows="4" class="form-control form-control-alternative" th:field="*{observacoes}"></textarea>
+                            <textarea rows="4" class="form-control form-control-alternative"
+                                      th:field="*{observacoes}"></textarea>
                         </div>
                     </div>
                 </div>
-                <hr class="my-4" />
+                <hr class="my-4"/>
                 <!-- Jogo Tabuleiro -->
                 <h6 class="heading-small text-muted mb-4">Informações da Hq</h6>
                 <div class="pl-lg-4">
@@ -113,8 +126,11 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-control-label" for="input-marca">Marca</label>
-                                <input id="input-marca" class="form-control form-control-alternative" placeholder="Marca" type="text" th:field="*{marca}">
-                                <small class="small-error" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}">Editora Error</small>
+                                <input id="input-marca" class="form-control form-control-alternative"
+                                       placeholder="Marca" type="text" th:field="*{marca}">
+                                <small class="small-error" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}">
+                                    Editora Error
+                                </small>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 package web.santiago.gcp.builders;
 
+import web.santiago.gcp.dtos.SagaDto;
 import web.santiago.gcp.entities.Saga;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class SagaBuilder {
 
     private Saga saga;
     private Collection<Saga> sagas;
+    private SagaDto sagaDto;
 
     public static SagaBuilder mockSagaBuilder() {
         SagaBuilder builder = new SagaBuilder();
@@ -32,6 +34,14 @@ public class SagaBuilder {
         return builder;
     }
 
+    public static SagaBuilder mockSagaDtoBuilder() {
+        SagaBuilder builder = new SagaBuilder();
+        builder.sagaDto = new SagaDto();
+        builder.sagaDto.setTitulo("Saga Dto");
+        builder.sagaDto.setId(1L);
+
+        return builder;
+    }
 
     // Methods
     public Saga getSaga() {
@@ -49,5 +59,9 @@ public class SagaBuilder {
 
     public Collection<Saga> getSagas() {
         return this.sagas;
+    }
+
+    public SagaDto getSagaDto() {
+        return this.sagaDto;
     }
 }

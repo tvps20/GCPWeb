@@ -5,6 +5,7 @@ import lombok.Setter;
 
 /**
  * Classe base para todas as Dtos
+ *
  * @author Santiago Brothers
  */
 public abstract class BaseDto {
@@ -12,6 +13,7 @@ public abstract class BaseDto {
     /**
      * Utilizado para atualizar entidades
      */
-	@Getter @Setter
+    @Getter
+    @Setter
     private long id;
 }

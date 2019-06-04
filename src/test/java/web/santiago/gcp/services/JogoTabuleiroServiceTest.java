@@ -71,13 +71,13 @@ public class JogoTabuleiroServiceTest {
     }
 
     @Test
-    public void getAllByMarca(){
+    public void getAllByMarca() {
         Mockito.when(this.jogoTabuleiroRepository.findAllByMarca(this.jogoTabuleiro.getMarca())).thenReturn(this.jogosTabuleiros);
         Assert.assertEquals(this.jogoTabuleiroService.getAllByMarca(this.jogoTabuleiro.getMarca()), this.jogosTabuleiros);
     }
 
     @Test
-    public void getAllByMarcaNull(){
+    public void getAllByMarcaNull() {
         Mockito.when(this.jogoTabuleiroRepository.findAll()).thenReturn(this.jogosTabuleiros);
         Assert.assertEquals(this.jogoTabuleiroService.getAllByMarca(null), this.jogosTabuleiros);
     }
@@ -88,7 +88,7 @@ public class JogoTabuleiroServiceTest {
     }
 
     @Test
-    public void createDtoFromItemJogoTabuleiro(){
+    public void createDtoFromItemJogoTabuleiro() {
         JogoTabuleiroService spyJogoTabuleiroService = Mockito.spy(this.jogoTabuleiroService);
 
         spyJogoTabuleiroService.createDtoFromItemJogoTabuleiro(this.item, this.jogoTabuleiro);
