@@ -6,6 +6,7 @@ import web.santiago.gcp.entities.Emprestimo;
 
 /**
  * Interface de comunicação com a base de dados Emprestimo
+ * @author Santiago Brothers
  */
 @Repository
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {

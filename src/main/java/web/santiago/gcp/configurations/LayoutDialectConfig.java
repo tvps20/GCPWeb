@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Esta classe é responsavel por configurar os dialetos utilizado pelo template render do thymeleaf
+ * @author Santiago Brothers
  */
 @Configuration
 public class LayoutDialectConfig {

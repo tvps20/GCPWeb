@@ -71,4 +71,11 @@ public class JogoDigitalRepositoryTest {
 
         Assert.assertEquals(this.jogoDigitalRepository.findAll().size(), 0);
     }
+
+    @Test
+    public void findAllByConsole(){
+        List jogos = this.jogoDigitalRepository.findAllByConsole(null);
+
+        Assert.assertEquals(this.jogoDigitalRepository.findAllByConsole(null).size(), 0);
+    }
 }

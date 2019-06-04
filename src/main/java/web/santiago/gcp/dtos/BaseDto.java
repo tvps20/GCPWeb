@@ -1,15 +1,17 @@
 package web.santiago.gcp.dtos;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Classe base para todas as Dtos
+ * @author Santiago Brothers
  */
-@Data
 public abstract class BaseDto {
 
     /**
      * Utilizado para atualizar entidades
      */
+	@Getter @Setter
     private long id;
 }

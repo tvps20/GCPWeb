@@ -71,4 +71,10 @@ public class AmigoServiceTest {
     public void mapper() {
         Assert.assertEquals(this.amigoService.mapper(this.amigoDto), this.amigo);
     }
+
+    @Test
+    public void mapperIdDiferenteZero(){
+        this.amigoDto.setId(1L);
+        Assert.assertEquals(this.amigoService.mapper(this.amigoDto), this.amigo);
+    }
 }

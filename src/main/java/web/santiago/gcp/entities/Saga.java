@@ -1,14 +1,16 @@
 package web.santiago.gcp.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.List;
 
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import java.util.List;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Representa um agrupamento de items na coleção
+ * @author Santiago Brothers
  */
 @Data
 @EqualsAndHashCode(exclude = "items")

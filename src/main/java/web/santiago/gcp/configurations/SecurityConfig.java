@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * Essa classe define as configurações de seguranças, autorizações e autenticações da aplicação.
+ * @author Santiago Brothers
  */
 @Configuration
 @EnableWebSecurity
@@ -21,15 +22,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/resources/**", "/css/**", "/js/**", "/img/**", "/vendor/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+            .authorizeRequests()
+            .antMatchers("/resources/**", "/css/**", "/js/**", "/img/**", "/vendor/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll();
     }
 }

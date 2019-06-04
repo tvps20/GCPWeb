@@ -10,13 +10,13 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.ItemDto;
+import web.santiago.gcp.entities.Emprestimo;
 import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.enuns.TipoColecao;
+import web.santiago.gcp.exceptions.EntityNotFoundException;
 import web.santiago.gcp.repositories.ItemRepository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootTest
 public class ItemServiceTest {
@@ -26,6 +26,8 @@ public class ItemServiceTest {
 
     @Mock
     private ItemRepository itemRepository;
+
+    private ItemService spyItemService;
 
     // Mocks
     private Optional<Item> itemOptional;
@@ -40,6 +42,7 @@ public class ItemServiceTest {
         this.itens = (List) ItemBuilder.mockCollectionItemBuilder().getItens();
         this.itemDto = ItemBuilder.mockItemDtoBuilder().getItemDto();
         this.item = ItemBuilder.mockItemBuilder().getItem();
+        this.spyItemService = Mockito.spy(this.itemService);
     }
 
     @Test
@@ -69,7 +72,38 @@ public class ItemServiceTest {
     }
 
     @Test
+    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndSemIds(){
+        List<Long> ids = new ArrayList<Long>();
+        this.item.setEmprestado(true);
+
+        this.spyItemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(this.item.getTitulo(), this.item.getTipo(), this.item.getEstado(), this.item.isEmprestado(), ids);
+
+        Mockito.verify(this.spyItemService).getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(this.item.getTitulo(), this.item.getTipo(), this.item.getEstado(), this.item.isEmprestado(), ids);
+    }
+
+    @Test
+    public void getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(){
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(1L);
+
+        this.spyItemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(this.item.getTitulo(), this.item.getTipo(), this.item.getEstado(), this.item.isEmprestado(), ids);
+
+        Mockito.verify(this.spyItemService).getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(this.item.getTitulo(), this.item.getTipo(), this.item.getEstado(), this.item.isEmprestado(), ids);
+    }
+
+    @Test
     public void mapper() {
+        Assert.assertEquals(this.itemService.mapper(this.itemDto), this.item);
+    }
+
+    @Test
+    public void mapperEmprestado(){
+        this.itemDto.setEmprestado(true);
+        this.itemDto.setId(1L);
+        this.item.setEmprestado(true);
+        this.item.setId(1L);
+        this.item.setEmprestimos(new HashSet<>());
+        this.item.setQtdEmprestimos(2);
         Assert.assertEquals(this.itemService.mapper(this.itemDto), this.item);
     }
 
@@ -78,6 +112,14 @@ public class ItemServiceTest {
         Mockito.when(this.itemRepository.findByItemIdAndTipo(1L, TipoColecao.DLC.getValor())).thenReturn(this.itemOptional);
 
         Assert.assertEquals(this.itemService.getByItemIdAndTipo(1L, TipoColecao.DLC.getValor()), this.itemOptional);
+    }
+
+    @Test
+    public void getAllByItemTipo(){
+        List<Item> itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
+        Mockito.when(this.itemService.getAllByItemTipo(TipoColecao.DLC)).thenReturn(itens);
+
+        Assert.assertEquals(this.itemService.getAllByItemTipo(TipoColecao.DLC), itens);
     }
 
     @Test
@@ -114,5 +156,17 @@ public class ItemServiceTest {
 
         Assert.assertEquals(this.itemService.getTop10ByEmprestimos().size(), 10);
         Assert.assertEquals(this.itemService.getTop10ByEmprestimos(), itens);
+    }
+
+    @Test
+    public void emprestarItem(){
+        Mockito.when(this.itemRepository.findById(this.item.getItemId())).thenReturn(this.itemOptional);
+
+        Assert.assertEquals(this.itemService.emprestarItem(this.item.getItemId()), this.itemOptional.get());
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void emprestarItemException(){
+          Assert.assertEquals(this.itemService.emprestarItem(this.item.getItemId()), this.itemOptional.get());
     }
 }

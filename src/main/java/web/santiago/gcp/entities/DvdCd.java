@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * Representa Dvds, cds e outras midias
+ * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity

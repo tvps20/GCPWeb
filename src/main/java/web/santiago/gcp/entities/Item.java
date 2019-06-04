@@ -1,14 +1,5 @@
 package web.santiago.gcp.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import web.santiago.gcp.enuns.EstadoItem;
-import web.santiago.gcp.enuns.TipoColecao;
-
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,9 +7,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import web.santiago.gcp.enuns.EstadoItem;
+import web.santiago.gcp.enuns.TipoColecao;
+
 /**
  * Representa um objeto a ser guardado na coleção. Entidade generica para qualquer objeto
  * Possui propriedades para linkar suas informações as informações do seu objeto relacionado
+ * @author Santiago Brothers
  */
 @Data
 @EqualsAndHashCode(exclude = "emprestimos")
@@ -38,6 +40,7 @@ public class Item extends Entity {
 
     // Wish List Propriedades
     private boolean wishlist;
+
     private Date disponibilidade;
     private String url;
 

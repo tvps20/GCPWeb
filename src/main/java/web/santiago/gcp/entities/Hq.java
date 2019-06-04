@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * Reprenseta uma graphic novel, HQ, historia em quadrinho ou revistas
+ * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity

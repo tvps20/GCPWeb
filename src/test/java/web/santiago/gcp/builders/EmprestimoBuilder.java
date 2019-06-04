@@ -1,5 +1,6 @@
 package web.santiago.gcp.builders;
 
+import web.santiago.gcp.dtos.EmprestimoDto;
 import web.santiago.gcp.entities.Emprestimo;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class EmprestimoBuilder {
 
     private Emprestimo emprestimo;
     private Collection<Emprestimo> emprestimos;
+    private EmprestimoDto emprestimoDto;
 
     public static EmprestimoBuilder mockEmprestimoBuilder() {
         EmprestimoBuilder builder = new EmprestimoBuilder();
@@ -33,9 +35,23 @@ public class EmprestimoBuilder {
         return builder;
     }
 
+    public static EmprestimoBuilder mockEmprestimoDtoBuilder() {
+        EmprestimoBuilder builder = new EmprestimoBuilder();
+        builder.emprestimoDto = new EmprestimoDto();
+        builder.emprestimoDto.setAmigo(1L);
+        builder.emprestimoDto.setDevolucao(new Date());
+        builder.emprestimoDto.setDevolvido(false);
+
+        return builder;
+    }
+
     // Methods
     public Emprestimo getEmprestimo() {
         return this.emprestimo;
+    }
+
+    public EmprestimoDto getEmpretimoDto() {
+        return this.emprestimoDto;
     }
 
     public Optional<Emprestimo> getEmprestimoOptional() {

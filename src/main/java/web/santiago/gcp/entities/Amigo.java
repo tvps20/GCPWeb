@@ -1,16 +1,18 @@
 package web.santiago.gcp.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * Representa um Amigo
+ * @author Santiago Brothers
  */
 @Data
 @EqualsAndHashCode(exclude = "emprestimos")

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{layout}">
+    <head>
+        <title>Items</title>
+
+    </head>
+    <body>
+        <section layout:fragment="content">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Items</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="#!" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#pesquisar-modal">Pesquisar</a>
+                            <a href="#!" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#adicionar-modal">Adicionar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Preco</th>
+                            <th scope="col">Emprestado</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="it : ${item}">
+                                <th scope="row" th:text="${it.titulo}"></th>
+                                <td th:text="${it.tipo}"></td>
+                                <td th:text="${it.estado}"></td>
+                                <td th:text="${it.preco}"></td>
+                                <td th:if="${it.emprestado}">Sim</td>
+                                <td th:if="${!it.emprestado}">Não</td>
+                                <td>
+                                    <a th:href="@{${it.tipo} + '/update/' + ${it.itemId}}" class="btn btn-sm btn-primary">Editar</a>
+                                    <a th:if="${!it.emprestado}" th:href="@{'/emprestimo/' + ${it.id}}" class="btn btn-sm btn-secondary">Emprestar</a>
+                                    <button th:if="${it.emprestado}" class="btn btn-sm btn-secondary" disabled>Emprestar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Adicionar Modal -->
+            <div class="modal fade" id="adicionar-modal" tabindex="-1" role="dialog" aria-labelledby="adicionar-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="adicionar-modal-label">Adicionar Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <select id="add-select" class="form-control">
+                                <option value="/hq/create">HQ</option>
+                                <option value="/dvdcd/create">DVD/CD</option>
+                                <option value="/jogodigital/create">Jogo Digital</option>
+                                <option value="/dlc/create">DLC</option>
+                                <option value="/jogotabuleiro/create">Jogo de Tabuleiro</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <a id="add-button" href="/hq/create" type="button" class="btn btn-primary link-button">Continuar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pesquisar Modal -->
+            <div class="modal fade" id="pesquisar-modal" tabindex="-1" role="dialog" aria-labelledby="pesquisar-modal-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="pesquisar-modal-label">Pesquisar Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="pesquisar-form" method="get" action="#" th:action="@{item}">
+                            <div class="modal-body">
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <label class="form-control-label" for="input-tipo">Tipo</label>
+                                            <select name="tipo" id="input-tipo" class="form-control form-control-alternative">
+                                                <option value="hq">HQ</option>
+                                                <option value="dvdcd">DVD/CD</option>
+                                                <option value="jogodigital">Jogo Digital</option>
+                                                <option value="dlc">DLC</option>
+                                                <option value="jogotabuleiro">Jogo de Tabuleiro</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <label class="form-control-label" for="input-titulo">Titulo</label>
+                                            <input name="titulo" type="text" id="input-titulo" class="form-control form-control-alternative" placeholder="Titulo">
+                                        </div>
+                                    </div>
+                                    <div class="padding5"></div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <label class="form-control-label" for="input-estado">Estado</label>
+                                            <select name="estado" id="input-estado" class="form-control form-control-alternative">
+                                                <option value="Novo">Novo</option>
+                                                <option value="Restaurado">Restaurado</option>
+                                                <option value="Regular">Regular</option>
+                                                <option value="Avariado">Avariado</option>
+                                                <option value="Danificado">Danificado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 end-checkbox-col">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input name="emprestados" type="checkbox" id="input-emprestado" class="custom-control-input">
+                                                <label class="custom-control-label" for="input-emprestado">Emprestado</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="padding5"></div>
+                                    <hr class="my-4" />
+                                    <div class="row div-tipo" id="hq">
+                                        <div class="col-lg-6">
+                                            <label class="form-control-label" for="input-editora">Editora</label>
+                                            <input name="editora" type="text" id="input-editora" class="form-control form-control-alternative" placeholder="Editora">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="form-control-label" for="input-universo">Universo</label>
+                                            <input type="text" name="universo" id="input-universo" class="form-control form-control-alternative" placeholder="Universo">
+                                        </div>
+                                    </div>
+                                    <div class="row div-tipo" id="dvdcd">
+                                        <div class="col-lg-12 end-checkbox-col">
+                                            <div class="custom-control custom-checkbox mb-3">
+                                                <input name="assistidos" type="checkbox" id="input-assistido" class="custom-control-input">
+                                                <label class="custom-control-label" for="input-assistido">Assistidos</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row div-tipo" id="dlc">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label" for="input-localizacao">Localização</label>
+                                            <input name="localizacao" type="text" id="input-localizacao" class="form-control form-control-alternative" placeholder="Localização">
+                                        </div>
+                                    </div>
+                                    <div class="row div-tipo" id="jogodigital">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label" for="input-console">Console</label>
+                                            <input name="console" type="text" id="input-console" class="form-control form-control-alternative" placeholder="Console">
+                                        </div>
+                                    </div>
+                                    <div class="row div-tipo" id="jogotabuleiro">
+                                        <div class="col-lg-12">
+                                            <label class="form-control-label" for="input-marca">Marca</label>
+                                            <input name="marca" type="text" id="input-marca" class="form-control form-control-alternative" placeholder="Marca">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button id="pesquisar-button" type="submit" class="btn btn-primary link-button">Pesquisar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section layout:fragment="script-add-modal">
+            <script>
+                $(document).ready(function () {
+
+                    // dinamyc change <a> href based on value select from drop down
+                    $('#add-select').on('change', function () {
+                        $('#add-button').attr('href', this.value);
+                    });
+
+                    // first element select already
+                    $('.div-tipo').hide();
+                    $('#hq').show();
+
+                    $('#input-tipo').on('change', function () {
+                        $('.div-tipo').hide();
+                        $('#' + this.value).show();
+                    });
+
+                    /*$('#pesquisar-button').click(function (e) {
+                        e.preventDefault();
+
+                        var query = $('#pesquisar-form').serialize();
+                        window.location = window.location + '?' + query;
+
+                        return false;
+                    })*/
+                });
+            </script>
+        </section>
+    </body>
+</html>

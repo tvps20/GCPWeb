@@ -10,6 +10,7 @@ import java.util.Optional;
 /**
  * Define como deve ser um Serviço para interagir com a base de dados e com as Entidades
  * Representa a camada entre o controller e o repositorio
+ * @author Santiago Brothers
  *
  * @param <T> Entidade relacionada ao repositorio
  * @param <K> Dto de comunicação entre a view e o repositorio

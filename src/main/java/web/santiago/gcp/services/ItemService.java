@@ -1,19 +1,30 @@
 package web.santiago.gcp.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import web.santiago.gcp.dtos.ItemDto;
-import web.santiago.gcp.entities.Item;
-import web.santiago.gcp.repositories.ItemRepository;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.santiago.gcp.dtos.ItemDto;
+import web.santiago.gcp.entities.Item;
+import web.santiago.gcp.enuns.TipoColecao;
+import web.santiago.gcp.exceptions.EntityNotFoundException;
+import web.santiago.gcp.repositories.ItemRepository;
 
 /**
  * Representa a camada de comunicação entre o Controller das rotas da entidade Item e o repositorio da entidade Item
+ * @author Santiago Brothers
  */
 @Service
 public class ItemService extends BaseService<Item, ItemDto> {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     @Autowired
     public ItemService(ItemRepository itemRepository) {
@@ -29,6 +40,10 @@ public class ItemService extends BaseService<Item, ItemDto> {
      */
     public Optional<Item> getByItemIdAndTipo(long itemId, String tipo) {
         return getRepository().findByItemIdAndTipo(itemId, tipo);
+    }
+
+    public List<Item> getAllByItemTipo(TipoColecao tipo) {
+        return getRepository().findAllByTipo(tipo.getValor());
     }
 
     /**
@@ -51,12 +66,67 @@ public class ItemService extends BaseService<Item, ItemDto> {
     }
 
     /**
+     * Recupera todos os items baseado em seu titulo e/ou tipo e/ou estado e/ou emprestados e/ou ids especificos
+     * @param titulo Titulo a ser buscado
+     * @param tipo Tipo a ser buscado
+     * @param estado Estado a ser buscado
+     * @param emprestados Filtro booleano
+     * @param ids Ids especificos a serem buscados
+     * @return Lista Item
+     */
+    public List<Item> getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(String titulo, String tipo, String estado, boolean emprestados, List<Long> ids) {
+
+        List<Item> items;
+
+        if (!ids.isEmpty())
+            items = this.getRepository().findAllByItemIdIn(ids);
+        else
+            items = this.getRepository().findAll();
+
+        Stream<Item> result = items.stream();
+
+        if (titulo != null && titulo != "")
+            result = result.filter(item -> item.getTitulo().equals(titulo));
+
+        if (tipo != null && tipo != "")
+            result = result.filter(item -> item.getTipo().equals(tipo));
+
+        if (estado != null && estado != "")
+            result = result.filter(item -> item.getEstado().equals(estado));
+
+        if (emprestados)
+            result = result.filter(item -> item.isEmprestado());
+
+        return result.collect(Collectors.toList());
+    }
+
+    /**
      * Executa uma busca para saber quais são os 10 itens mais emprestados
      *
      * @return Uma lista contendo os 10 itens mais emprestados ordenados do maior para o menor
      */
     public List<Item> getTop10ByEmprestimos() {
         return getRepository().findTop10ByOrderByQtdEmprestimosDesc();
+    }
+
+    /**
+     * Atualiza dados de emprestimo do Item
+     * @param id Item a ser emprestado
+     * @return Item emprestado
+     */
+    public Item emprestarItem(long id) {
+
+        Optional<Item> item = this.getRepository().findById(id);
+        if (!item.isPresent()) {
+            logger.error("Item not found. Id {}", id);
+            throw new EntityNotFoundException("Item not found", "Item", "Emprestimo");
+        }
+
+        item.get().setEmprestado(true);
+        item.get().setQtdEmprestimos(item.get().getQtdEmprestimos() + 1);
+
+        this.repository.save(item.get());
+        return item.get();
     }
 
     /**
@@ -76,6 +146,8 @@ public class ItemService extends BaseService<Item, ItemDto> {
      */
     @Override
     public Item mapper(ItemDto dto) {
+    	
+    	logger.info("Mapping 'ItemDto' to 'Item'");
 
         Item item = new Item(
                 dto.getTitulo(),
@@ -92,6 +164,12 @@ public class ItemService extends BaseService<Item, ItemDto> {
                 dto.getItemId(),
                 dto.getTipo()
         );
+
+        if (item.isEmprestado() && item.getId() == 0)
+            item.setQtdEmprestimos(item.getQtdEmprestimos() + 1);
+
+        if (dto.getId() != 0)
+            item.setId(dto.getId());
 
         return item;
     }

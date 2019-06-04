@@ -2,6 +2,7 @@ package web.santiago.gcp.enuns;
 
 /**
  * Define os tipos de coleções do sistema
+ * @author Santiago Brothers
  */
 public enum TipoColecao {
     HQ("hq"), DLC("dlc"), DVDCD("dvdcd"), JOGODIGITAL("jogodigital"), JOGOTABULEIRO("jogotabuleiro"), ITEM("item");

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * Representa uma aplicação Spring Boot
+ * @author Santiago Brothers
  */
 @SpringBootApplication
 @EnableJpaAuditing

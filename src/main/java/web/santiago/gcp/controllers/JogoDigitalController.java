@@ -1,8 +1,11 @@
 package web.santiago.gcp.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import web.santiago.gcp.dtos.JogoDigitalDto;
 import web.santiago.gcp.entities.Item;
@@ -11,14 +14,18 @@ import web.santiago.gcp.enuns.TipoColecao;
 import web.santiago.gcp.services.ItemService;
 import web.santiago.gcp.services.JogoDigitalService;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 /**
  * Define as rotas e ações para interagir com a entidade JogoDigital
+ * @author Santiago Brothers
  */
 @Controller
 @RequestMapping("/jogodigital")
 public class JogoDigitalController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JogoDigitalController.class);
 
     /**
      * Servico responsavel por interagir com a base de dados da entidade JogoDigital
@@ -38,7 +45,8 @@ public class JogoDigitalController {
      * @return View 'jogodigital-save'
      */
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute(TipoColecao.JOGODIGITAL.getValor(), new JogoDigitalDto());
         return "jogodigital-save";
     }
 
@@ -52,19 +60,22 @@ public class JogoDigitalController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable Long id, Model model) {
 
+    	logger.info("Find 'JogoDigital' Id: {} on data source", id);
         Optional<JogoDigital> jogoDigital = this.jogoDigitalService.getById(id);
         if (!jogoDigital.isPresent()) {
+        	logger.error("'JogoDigital' Id: {} not found", id);
             return "not-found";
         }
 
-        model.addAttribute(TipoColecao.JOGODIGITAL.getValor(), jogoDigital);
-
+        logger.info("Find 'Item' related with 'JogoDigital' on data source");
         Optional<Item> item = this.itemService.getByItemIdAndTipo(id, TipoColecao.JOGODIGITAL.getValor());
         if (!item.isPresent()) {
+        	logger.error("'Item'not found");
             return "not-found";
         }
 
-        model.addAttribute(TipoColecao.ITEM.getValor(), item);
+        JogoDigitalDto dto = this.jogoDigitalService.createDtoFromItemJogoDigital(item.get(), jogoDigital.get());
+        model.addAttribute(TipoColecao.JOGODIGITAL.getValor(), dto);
 
         return "jogodigital-save";
     }
@@ -76,16 +87,30 @@ public class JogoDigitalController {
      * @return View 'item-index'
      */
     @PostMapping("/save")
-    public String save(@ModelAttribute JogoDigitalDto dto) {
+    public String save(@Valid @ModelAttribute("jogodigital") JogoDigitalDto dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "jogodigital-save";
+        }
+    	
+    	if (dto.getItemId() != 0)
+    		logger.info("Updating 'Jogo Digital' Id: {} on data source", dto.getItemId());
+    	else 
+    		logger.info("Creating new 'Jogo Digital' on data source");
 
         JogoDigital jogoDigitalEntity = this.jogoDigitalService.save(dto);
 
         dto.setItemId(jogoDigitalEntity.getId());
         dto.setTipo("jogodigital");
+        
+        if (dto.getId() != 0)
+    		logger.info("Updating 'Item' Id: {} on data source", dto.getId());
+    	else 
+    		logger.info("Creating new 'Item' on data source");
 
-        Item itemEntity = this.itemService.save(dto);
+        this.itemService.save(dto);
 
-        return "item-index";
+        return "redirect:/item";
     }
 
     /**
@@ -97,7 +122,10 @@ public class JogoDigitalController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
 
+    	logger.info("Deleting 'JogoDigital' Id:{} from data source", id);
         this.jogoDigitalService.delete(id);
+        
+        logger.info("Deleting 'Item' from data source");
         this.itemService.deleteByItemId(id);
 
         return "item-index";

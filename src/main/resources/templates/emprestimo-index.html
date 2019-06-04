@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Emprestimo</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h3 class="mb-0">Emprestar Item</h3>
+                </div>
+                <!--<div class="col-4 text-right">
+                    <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+                </div>-->
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="#" th:action="@{/emprestimo/save}" th:object="${emprestimo}" method="post">
+
+                <!-- id -->
+                <input type="text" id="input-id" th:field="*{id}" hidden>
+                <input type="text" id="input-item" th:field="*{item}" hidden>
+
+                <!-- Item -->
+                <h6 class="heading-small text-muted mb-4">Informações do Emprestimo</h6>
+                <div class="pl-lg-4">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-titulo">Titulo</label>
+                                <input type="text" id="input-titulo" class="form-control form-control-alternative" placeholder="Titulo" th:field="${item.titulo}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-tipo">Tipo</label>
+                                <input type="text" id="input-tipo" class="form-control form-control-alternative" placeholder="Tipo" th:field="${item.tipo}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-amigo">Amigo</label>
+                                <select id="input-amigo" class="form-control form-control-alternative" placeholder="" th:field="*{amigo}">
+                                    <option th:each="amigo : ${amigos}" th:value="${amigo.id}" th:text="${amigo.nome}"></option>
+                                </select>
+                                <small class="small-error" th:if="${#fields.hasErrors('amigo')}" th:errors="*{amigo}">Amigo Error</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label class="form-control-label" for="input-devolucao">Devolução</label>
+                                <input id="input-devolucao" class="form-control" placeholder="Selecione a data" type="date" th:field="*{devolucao}">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 center-checkbox-col">
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" id="input-devolvido" class="custom-control-input" th:field="*{devolvido}">
+                                <label class="custom-control-label" for="input-devolvido">Devolvido</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4"/>
+                <div class="row align-right">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

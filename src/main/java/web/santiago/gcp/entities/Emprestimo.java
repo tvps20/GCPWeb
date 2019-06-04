@@ -1,13 +1,15 @@
 package web.santiago.gcp.entities;
 
-import lombok.Data;
+import java.util.Date;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.util.Date;
+
+import lombok.Data;
 
 /**
  * Representa um Item emprestado a um Amigo
+ * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity

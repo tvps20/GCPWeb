@@ -27,7 +27,6 @@ public class HomeControllerTest {
 
     @Test
     public void homepage() {
-
         Assert.assertEquals(this.homeController.homePage(this.model), "home");
         Assert.assertEquals(this.model.containsAttribute("appName"), true);
     }
