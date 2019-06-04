@@ -6,10 +6,7 @@ import web.santiago.gcp.entities.Hq;
 
 /**
  * Interface de comunicação com a base de dados Hq
- *
- * @author Santiago Brothers
  */
 @Repository
 public interface HqRepository extends JpaRepository<Hq, Long> {
-
 }

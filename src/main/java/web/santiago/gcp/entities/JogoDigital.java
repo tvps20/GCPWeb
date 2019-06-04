@@ -12,8 +12,6 @@ import java.util.stream.Stream;
 
 /**
  * Representa um jogo digital ou em midia fisica
- *
- * @author Santiago Brothers
  */
 @Data
 @EqualsAndHashCode(exclude = "dlcs")

@@ -8,14 +8,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * Representa uma aplicação Spring Boot
- *
- * @author Santiago Brothers
  */
 @SpringBootApplication
 @EnableJpaAuditing
 public class GcpApplication extends SpringBootServletInitializer {
-
-    @Override
+	
+	@Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(GcpApplication.class);
     }

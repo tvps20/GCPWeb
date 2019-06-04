@@ -2,8 +2,6 @@ package web.santiago.gcp.enuns;
 
 /**
  * Define os possiveis estados dos items
- *
- * @author Santiago Brothers
  */
 public enum EstadoItem {
     NOVO("Novo"), RESTAURADO("Restaurado"), REGULAR("Regular"), AVARIADO("Avariado"), DANIFICADO("Danificado");

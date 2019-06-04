@@ -11,8 +11,6 @@ import java.util.stream.Stream;
 
 /**
  * Representa um Amigo
- *
- * @author Santiago Brothers
  */
 @Data
 @EqualsAndHashCode(exclude = "emprestimos")

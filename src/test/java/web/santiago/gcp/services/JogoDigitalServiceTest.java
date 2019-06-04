@@ -8,10 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.builders.JogoDigitalBuilder;
 import web.santiago.gcp.dtos.JogoDigitalDto;
-import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.entities.JogoDigital;
 import web.santiago.gcp.repositories.JogoDigitalRepository;
 
@@ -32,7 +30,6 @@ public class JogoDigitalServiceTest {
     private List<JogoDigital> jogosDigitais;
     private JogoDigitalDto jogoDigitalDto;
     private JogoDigital jogoDigital;
-    private Item item;
 
     @Before
     public void setUp() {
@@ -41,7 +38,6 @@ public class JogoDigitalServiceTest {
         this.jogosDigitais = (List) JogoDigitalBuilder.mockCollectionJogoDigitalBuilder().getJogosDigitais();
         this.jogoDigitalDto = JogoDigitalBuilder.mockJogoDigitalDtoBuilder().getJogoDigitalDto();
         this.jogoDigital = JogoDigitalBuilder.mockJogoDigitalBuilder().getJogoDigital();
-        this.item = ItemBuilder.mockItemBuilder().getItem();
     }
 
     @Test
@@ -71,28 +67,7 @@ public class JogoDigitalServiceTest {
     }
 
     @Test
-    public void getAllByConsole() {
-        Mockito.when(this.jogoDigitalRepository.findAllByConsole(this.jogoDigital.getConsole())).thenReturn(this.jogosDigitais);
-        Assert.assertEquals(this.jogoDigitalService.getAllByConsole(this.jogoDigital.getConsole()), this.jogosDigitais);
-    }
-
-    @Test
-    public void getAllByConsoleNull() {
-        Mockito.when(this.jogoDigitalRepository.findAll()).thenReturn(this.jogosDigitais);
-        Assert.assertEquals(this.jogoDigitalService.getAllByConsole(null), this.jogosDigitais);
-    }
-
-    @Test
     public void mapper() {
         Assert.assertEquals(this.jogoDigitalService.mapper(this.jogoDigitalDto), this.jogoDigital);
-    }
-
-    @Test
-    public void createDtoFromItemJogoDigital() {
-        JogoDigitalService spyJogoDigitalService = Mockito.spy(this.jogoDigitalService);
-
-        spyJogoDigitalService.createDtoFromItemJogoDigital(this.item, this.jogoDigital);
-
-        Mockito.verify(spyJogoDigitalService).createDtoFromItemJogoDigital(this.item, this.jogoDigital);
     }
 }

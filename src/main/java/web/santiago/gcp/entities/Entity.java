@@ -10,8 +10,6 @@ import java.util.Date;
 
 /**
  * Representa as propriedades bases que todas as entidades devem possuir
- *
- * @author Santiago Brothers
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

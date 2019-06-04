@@ -8,8 +8,6 @@ import java.util.Date;
 
 /**
  * Representa um Item emprestado a um Amigo
- *
- * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity

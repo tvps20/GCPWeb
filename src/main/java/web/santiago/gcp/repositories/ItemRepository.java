@@ -9,8 +9,6 @@ import java.util.Optional;
 
 /**
  * Interface de comunicação com a base de dados Item
- *
- * @author Santiago Brothers
  */
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
@@ -23,14 +21,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      * @return Container da Entidade Item
      */
     Optional<Item> findByItemIdAndTipo(Long itemId, String tipo);
-
-    /**
-     * Executa uma busca para recuperar todos os items de um determinado tipo
-     *
-     * @param tipo Tipo do item a ser buscado
-     * @return Lista de Item de um unico tipo
-     */
-    List<Item> findAllByTipo(String tipo);
 
     /**
      * Exclue um Item da base de dados
@@ -53,36 +43,4 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      * @return Uma lista contendo os 10 itens mais emprestados ordenados do maior para o menor
      */
     List<Item> findTop10ByOrderByQtdEmprestimosDesc();
-
-    /**
-     * Executa uma busca para recuperar todos os items de uma lista de ids.
-     *
-     * @param ids Lista de Ids
-     * @return Lista de Item
-     */
-    List<Item> findAllByItemIdIn(List<Long> ids);
-
-    /**
-     * Executa uma busca para recuperar todos os items de uma lista de ids.
-     *
-     * @param ids Lista de Ids
-     * @return Lista de Item
-     */
-    List<Item> findAllByIdIn(List<Long> ids);
-
-    /**
-     * Executa uma busca para recuperar todos os items de uma saga
-     *
-     * @param id Id da Saga
-     * @return Lista de Items
-     */
-    List<Item> findAllBySagaId(Long id);
-
-    /**
-     * Executa uma busca para recuperar todos os items que estão na wishlist
-     *
-     * @param wishilist
-     * @return
-     */
-    List<Item> findAllByWishlist(boolean wishilist);
 }

@@ -90,7 +90,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void findTop10ByOrderByQtdEmprestimosDesc() {
+    public void findTop10ByOrderByQtdEmprestimosDesc(){
         List<Item> itens = (List<Item>) ItemBuilder.mockCollectionItemBuilder().getItens();
 
         for (Item item : itens) {

@@ -71,16 +71,4 @@ public class AmigoServiceTest {
     public void mapper() {
         Assert.assertEquals(this.amigoService.mapper(this.amigoDto), this.amigo);
     }
-
-    @Test
-    public void mapperIdDiferenteZero() {
-        this.amigoDto.setId(1L);
-        Assert.assertEquals(this.amigoService.mapper(this.amigoDto), this.amigo);
-    }
-
-    @Test
-    public void update() {
-        Mockito.when(this.amigoService.update(this.amigo)).thenReturn(this.amigo);
-        Assert.assertEquals(this.amigoService.update(this.amigo), this.amigo);
-    }
 }

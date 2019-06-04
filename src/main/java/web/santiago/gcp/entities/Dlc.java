@@ -7,8 +7,6 @@ import javax.persistence.ManyToOne;
 
 /**
  * Representa uma DlcDto que faz parte de algum JogoDigital
- *
- * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity

@@ -10,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import web.santiago.gcp.builders.AmigoBuilder;
 import web.santiago.gcp.dtos.AmigoDto;
 import web.santiago.gcp.entities.Amigo;
@@ -27,8 +26,6 @@ public class AmigoControllerTest {
 
     @Mock
     private AmigoService amigoService;
-    @Mock
-    private BindingResult bindingResult;
 
     private Model model;
 
@@ -41,7 +38,7 @@ public class AmigoControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.amigoOptional = AmigoBuilder.mockAmigoBuilder().getAmigoOptional();
-        this.amigos = (List<Amigo>) AmigoBuilder.mockCollectionAmigosBuilder().getAmigos();
+        this.amigos = (List) AmigoBuilder.mockCollectionAmigosBuilder().getAmigos();
         this.amigoDto = AmigoBuilder.mockAmigoDtoBuilder().getAmigoDto();
         this.amigo = AmigoBuilder.mockAmigoBuilder().getAmigo();
 
@@ -50,22 +47,24 @@ public class AmigoControllerTest {
 
     @Test
     public void index() {
+
         Mockito.when(this.amigoService.getAll()).thenReturn(this.amigos);
 
-        Assert.assertEquals(this.amigoController.index(this.model), "amigo/amigo-index");
+        Assert.assertEquals(this.amigoController.index(this.model), "amigo-index");
         Assert.assertEquals(this.model.containsAttribute("amigos"), true);
     }
 
     @Test
     public void create() {
-        Assert.assertEquals(this.amigoController.create(this.model), "amigo/amigo-save");
+        Assert.assertEquals(this.amigoController.create(), "amigo-save");
     }
 
     @Test
     public void update() {
+
         Mockito.when(this.amigoService.getById(1L)).thenReturn(this.amigoOptional);
 
-        Assert.assertEquals(this.amigoController.update(1L, this.model), "amigo/amigo-save");
+        Assert.assertEquals(this.amigoController.update(1L, this.model), "amigo-save");
         Assert.assertEquals(this.model.containsAttribute("amigo"), true);
     }
 
@@ -79,27 +78,15 @@ public class AmigoControllerTest {
 
     @Test
     public void save() {
-        Mockito.when(this.amigoService.save(this.amigoDto)).thenReturn(this.amigo);
-        Assert.assertEquals(this.amigoController.save(this.amigoDto, this.bindingResult), "redirect:/amigo");
-    }
 
-    @Test
-    public void saveError() {
         Mockito.when(this.amigoService.save(this.amigoDto)).thenReturn(this.amigo);
-        Mockito.when(this.bindingResult.hasErrors()).thenReturn(true);
-        Assert.assertEquals(this.amigoController.save(this.amigoDto, this.bindingResult), "amigo/amigo-save");
-    }
-
-    @Test
-    public void saveIdDiferenteZero() {
-        Mockito.when(this.amigoService.save(this.amigoDto)).thenReturn(this.amigo);
-        this.amigoDto.setId(1L);
-        Assert.assertEquals(this.amigoController.save(this.amigoDto, this.bindingResult), "redirect:/amigo");
+        Assert.assertEquals(this.amigoController.save(this.amigoDto), "amigo-index");
     }
 
     @Test
     public void delete() {
-        Assert.assertEquals(this.amigoController.delete(1L), "redirect:/amigo");
+
+        Assert.assertEquals(this.amigoController.delete(1L), "amigo-index");
         Mockito.verify(this.amigoService, Mockito.times(1)).delete(1L);
     }
 }

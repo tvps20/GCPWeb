@@ -9,10 +9,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import web.santiago.gcp.builders.HqBuilder;
-import web.santiago.gcp.builders.ItemBuilder;
 import web.santiago.gcp.dtos.HqDto;
 import web.santiago.gcp.entities.Hq;
-import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.repositories.HqRepository;
 
 import java.util.List;
@@ -27,14 +25,11 @@ public class HqServiceTest {
     @Mock
     private HqRepository hqRepository;
 
-    private HqService spyHqService;
-
     // Mocks
     private Optional<Hq> hqOptional;
     private List<Hq> hqs;
     private HqDto hqDto;
     private Hq hq;
-    private Item item;
 
     @Before
     public void setUp() {
@@ -43,8 +38,6 @@ public class HqServiceTest {
         this.hqs = (List) HqBuilder.mockCollectionHqBuilder().getHqs();
         this.hqDto = HqBuilder.mockHqDtoBuilder().getHqDto();
         this.hq = HqBuilder.mockHqBuilder().getHq();
-        this.item = ItemBuilder.mockItemBuilder().getItem();
-        this.spyHqService = Mockito.spy(this.hqService);
     }
 
     @Test
@@ -74,23 +67,7 @@ public class HqServiceTest {
     }
 
     @Test
-    public void getAllByEditoraAndUniverso() {
-        Mockito.when(this.hqRepository.findAll()).thenReturn(this.hqs);
-
-        this.spyHqService.getAllByEditoraAndUniverso(this.hq.getEditora(), this.hq.getUniverso());
-
-        Mockito.verify(this.spyHqService).getAllByEditoraAndUniverso(this.hq.getEditora(), this.hq.getUniverso());
-    }
-
-    @Test
     public void mapper() {
         Assert.assertEquals(this.hqService.mapper(this.hqDto), this.hq);
-    }
-
-    @Test
-    public void createDtoFromItemHq() {
-        this.spyHqService.createDtoFromItemHq(this.item, this.hq);
-
-        Mockito.verify(this.spyHqService).createDtoFromItemHq(this.item, this.hq);
     }
 }

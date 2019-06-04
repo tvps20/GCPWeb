@@ -13,7 +13,6 @@ import java.util.Optional;
  *
  * @param <T> Entidade relacionada ao repositorio
  * @param <K> Dto de comunicação entre a view e o repositorio
- * @author Santiago Brothers
  */
 public interface IService<T extends Entity, K extends BaseDto> extends IMapperToEntity<K, T> {
 
@@ -39,14 +38,6 @@ public interface IService<T extends Entity, K extends BaseDto> extends IMapperTo
      * @return Nova ou atualizada entidade
      */
     T save(K dto);
-
-    /**
-     * Atualiza uma entidade
-     *
-     * @param entity Entitdade a ser atualizada
-     * @return Entitdade Atualizada
-     */
-    T update(T entity);
 
     /**
      * Exclue uma entidade da base de dados

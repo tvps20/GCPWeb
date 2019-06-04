@@ -4,8 +4,6 @@ import lombok.Data;
 
 /**
  * Representa um jogo de tabuleiro
- *
- * @author Santiago Brothers
  */
 @Data
 @javax.persistence.Entity
