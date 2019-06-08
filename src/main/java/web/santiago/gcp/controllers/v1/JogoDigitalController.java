@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/jogodigitai")
+@RequestMapping("v1/jogodigital")
 public class JogoDigitalController {
 
     private static final Logger logger = LoggerFactory.getLogger(JogoDigitalController.class);
