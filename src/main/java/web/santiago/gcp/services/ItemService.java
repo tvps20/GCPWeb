@@ -10,10 +10,7 @@ import web.santiago.gcp.enuns.TipoColecao;
 import web.santiago.gcp.exceptions.EntityNotFoundException;
 import web.santiago.gcp.repositories.ItemRepository;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,7 +80,7 @@ public class ItemService extends BaseService<Item, ItemDto> {
         if (!ids.isEmpty())
             items = this.getRepository().findAllByItemIdIn(ids);
         else
-            items = this.getRepository().findAll();
+            items = new ArrayList<>();
 
         Stream<Item> result = items.stream();
 
