@@ -20,7 +20,8 @@ import static web.santiago.gcp.configurations.SecurityConstants.SEARCH_URL;
 import static web.santiago.gcp.configurations.SecurityConstants.SIGN_UP_URL;
 
 /**
- * Essa classe define as configurações de seguranças, autorizações e autenticações da aplicação.
+ * Essa classe define as configurações de seguranças, autorizações e
+ * autenticações da aplicação.
  *
  * @author Santiago Brothers
  */
@@ -39,11 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(SIGN_UP_URL).permitAll()
-                .antMatchers("/**").hasRole("USER")
-                .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers(SIGN_UP_URL).permitAll().antMatchers("/**")
+                .hasRole("USER").and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), custumUserDetailService));
     }
 
@@ -65,12 +63,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
