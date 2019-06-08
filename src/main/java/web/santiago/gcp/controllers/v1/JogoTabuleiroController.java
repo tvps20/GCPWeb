@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/jogosTabuleiros")
+@RequestMapping("v1/jogotabuleiro")
 public class JogoTabuleiroController {
 
     private static final Logger logger = LoggerFactory.getLogger(JogoTabuleiroController.class);

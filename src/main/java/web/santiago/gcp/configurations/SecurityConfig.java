@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import web.santiago.gcp.services.CustumUserDetailService;
 
+import static web.santiago.gcp.configurations.SecurityConstants.SEARCH_URL;
 import static web.santiago.gcp.configurations.SecurityConstants.SIGN_UP_URL;
 
 /**
@@ -35,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.GET, SEARCH_URL).permitAll()
                 .antMatchers("/**").hasRole("USER")
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("v1/sagas")
+@RequestMapping("v1/saga")
 public class SagaController {
 
     private static final Logger logger = LoggerFactory.getLogger(SagaController.class);

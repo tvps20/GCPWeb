@@ -21,7 +21,7 @@ import java.util.Optional;
  * @author Santiago Brothers
  */
 @RestController
-@RequestMapping("v1/amigos")
+@RequestMapping("v1/amigo")
 public class AmigoController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AmigoController.class);

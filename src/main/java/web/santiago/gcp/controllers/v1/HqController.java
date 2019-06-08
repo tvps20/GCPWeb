@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/hqs")
+@RequestMapping("v1/hq")
 public class HqController {
 
 

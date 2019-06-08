@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("v1/users")
+@RequestMapping("v1/user")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -75,5 +75,10 @@ public class UserController {
         logger.info("Logout of sistem");
         session.invalidate();
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/livreAcesso")
+    public ResponseEntity<?> liveAcesso(){
+        return new ResponseEntity<>("Rota de acesso livre.", HttpStatus.OK);
     }
 }

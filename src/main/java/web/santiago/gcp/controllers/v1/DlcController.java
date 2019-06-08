@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/dlcs")
+@RequestMapping("v1/dlc")
 public class DlcController {
 
     private static final Logger logger = LoggerFactory.getLogger(DlcController.class);

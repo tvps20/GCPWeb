@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("v1/dvdsCds")
+@RequestMapping("v1/dvdcd")
 public class DvdCdController {
 
     private static final Logger logger = LoggerFactory.getLogger(DvdCdController.class);
