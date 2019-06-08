@@ -16,7 +16,6 @@ import web.santiago.gcp.services.CustumUserDetailService;
 
 import java.util.Arrays;
 
-import static web.santiago.gcp.configurations.SecurityConstants.SEARCH_URL;
 import static web.santiago.gcp.configurations.SecurityConstants.SIGN_UP_URL;
 
 /**
@@ -40,8 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers(SIGN_UP_URL).permitAll().antMatchers("/**")
-                .hasRole("USER").and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(SIGN_UP_URL).permitAll().antMatchers("/**").hasRole("USER").and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), custumUserDetailService));
     }
 
