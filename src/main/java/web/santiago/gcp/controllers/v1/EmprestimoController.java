@@ -126,8 +126,8 @@ public class EmprestimoController {
         Emprestimo emprestimo;
         Optional<Emprestimo> entity;
 
-        logger.info("Find 'Emprestimo' Id: {} on data source", id);
-        this.emprestimoService.verifyIfExists(id);
+        logger.info("Find 'Item' Id: {} on data source", id);
+        this.itemService.verifyIfExists(id);
 
         if (type != null && type.equals("item")) {
             entity = this.emprestimoService.getEmprestimoNaoDevolvidoByItemId(id);
