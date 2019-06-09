@@ -47,7 +47,10 @@ public class SagaController {
     @GetMapping
     public ResponseEntity<?> listAll(Pageable pageable) {
         Page<Saga> sagas = this.sagaService.listAll(pageable);
-        sagas.getContent().forEach(saga -> saga.getItems().forEach(item -> item.setSaga(null)));
+        sagas.getContent().forEach(saga -> saga.getItems().forEach(item -> {
+            item.setSaga(null);
+            item.setEmprestimos(null);
+        }));
         logger.info("Get all 'Saga' from data source");
         return new ResponseEntity<>(sagas, HttpStatus.OK);
     }
@@ -64,12 +67,16 @@ public class SagaController {
         this.sagaService.verifyIfExists(id);
         logger.info("Searching for a 'Saga' in the data source");
         Optional<Saga> optionalSaga = this.sagaService.getById(id);
-        optionalSaga.get().getItems().forEach(item -> item.setSaga(null));
+        optionalSaga.get().getItems().forEach(item -> {
+            item.setSaga(null);
+            item.setEmprestimos(null);
+        });
         return new ResponseEntity<Optional>(optionalSaga, HttpStatus.OK);
     }
 
     /**
      * Salva ou atualiza um Saga e um Item na base de dados
+     * 
      * @param dto Objeto de transferencia de dados enviado pela view
      * @return ResponseEntity
      */
@@ -86,12 +93,17 @@ public class SagaController {
         List<Item> items = this.itemService.getAllItemsPorSaga(entity.getId());
         if (items.size() != dto.getItems().size()) {
             // pegar os diferentes
-            List<Item> diferentes = items.stream().filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id)).collect(Collectors.toList());
+            List<Item> diferentes = items.stream()
+                    .filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id))
+                    .collect(Collectors.toList());
             items.forEach(item -> item.setSaga(null));
             this.itemService.saveAll(items);
         }
 
-        entity.getItems().forEach(item -> item.setSaga(null));
+        entity.getItems().forEach(item -> {
+            item.setSaga(null);
+            item.setEmprestimos(null);
+        });
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
