@@ -170,6 +170,10 @@ public class ItemController {
 
         Optional<Item> item = this.itemService.getById(id);
         item.get().getSaga().setItems(null);
+        item.get().getEmprestimos().forEach(emprestimo -> {
+            emprestimo.setItem(null);
+            emprestimo.setAmigo(null);
+        });
         logger.info("Searching for a 'Item' in the data source");
 
         return new ResponseEntity<Optional>(item, HttpStatus.OK);
