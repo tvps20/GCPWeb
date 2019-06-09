@@ -169,7 +169,9 @@ public class ItemController {
         this.itemService.verifyIfExists(id);
 
         Optional<Item> item = this.itemService.getById(id);
-        item.get().getSaga().setItems(null);
+        if (item.get().getSaga() != null) {
+            item.get().getSaga().setItems(null);
+        }
         item.get().getEmprestimos().forEach(emprestimo -> {
             emprestimo.setItem(null);
             emprestimo.setAmigo(null);
