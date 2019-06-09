@@ -23,7 +23,6 @@ import java.util.Optional;
 @RequestMapping("v1/emprestimo")
 public class EmprestimoController {
 
-
     private static final Logger logger = LoggerFactory.getLogger(AmigoController.class);
 
     /**
@@ -56,8 +55,9 @@ public class EmprestimoController {
         emprestimos.getContent().forEach(emprestimo -> {
             emprestimo.getAmigo().setEmprestimos(null);
             emprestimo.getItem().setEmprestimos(null);
+            emprestimo.getItem().setSaga(null);
         });
-        logger.info("Get all 'Hq' from data source");
+        logger.info("Get all 'Emprestimo' from data source");
         return new ResponseEntity<>(emprestimos, HttpStatus.OK);
     }
 
@@ -70,10 +70,11 @@ public class EmprestimoController {
     @GetMapping("/abertos")
     public ResponseEntity<?> listAllAbertos(Pageable pageable) {
         logger.info("Get all 'Emprestimos Abertos' from data source");
-        List<Emprestimo> itens =  this.emprestimoService.getAllEmprestimoAbertos();
+        List<Emprestimo> itens = this.emprestimoService.getAllEmprestimoAbertos();
         itens.forEach(item -> {
             item.getAmigo().setEmprestimos(null);
             item.getItem().setEmprestimos(null);
+            item.getItem().setSaga(null);
         });
         Page<Emprestimo> pages = new PageImpl<>(itens, pageable, itens.size());
         return new ResponseEntity<>(pages, HttpStatus.OK);
@@ -93,11 +94,13 @@ public class EmprestimoController {
         Optional<Emprestimo> optionalEmprestimo = this.emprestimoService.getById(id);
         optionalEmprestimo.get().getItem().setEmprestimos(null);
         optionalEmprestimo.get().getAmigo().setEmprestimos(null);
+        optionalEmprestimo.get().getItem().setSaga(null);
         return new ResponseEntity<Optional>(optionalEmprestimo, HttpStatus.OK);
     }
 
     /**
      * Salva ou atualiza um Hq e um Item na base de dados
+     * 
      * @param dto Objeto de transferencia de dados enviado pela view
      * @return ResponseEntity
      */
@@ -110,13 +113,15 @@ public class EmprestimoController {
 
         emprestimo.getItem().setEmprestimos(null);
         emprestimo.getAmigo().setEmprestimos(null);
+        emprestimo.getItem().setSaga(null);
 
         return new ResponseEntity<>(emprestimo, HttpStatus.CREATED);
     }
 
-
     @GetMapping("/devolver/{id}")
-    public ResponseEntity<?> devolver(@PathVariable long id, @RequestParam(value = "type", required = false) String type, @RequestParam(value = "returnUrl", required = false) String returnUrl) {
+    public ResponseEntity<?> devolver(@PathVariable long id,
+            @RequestParam(value = "type", required = false) String type,
+            @RequestParam(value = "returnUrl", required = false) String returnUrl) {
 
         Emprestimo emprestimo;
         Optional<Emprestimo> entity;
@@ -137,6 +142,7 @@ public class EmprestimoController {
 
         emprestimo.getItem().setEmprestimos(null);
         emprestimo.getAmigo().setEmprestimos(null);
+        emprestimo.getItem().setSaga(null);
 
         return new ResponseEntity<>(emprestimo, HttpStatus.OK);
     }
