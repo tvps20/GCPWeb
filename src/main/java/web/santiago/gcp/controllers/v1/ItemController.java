@@ -158,10 +158,13 @@ public class ItemController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
-        logger.info("Searching for a 'Item' in the data source");
         logger.info("Find 'Item' Id: {} on data source", id);
         this.itemService.verifyIfExists(id);
+        
+        Optional<Item> item = this.itemService.getById(id);
+        item.get().getSaga().getItems().forEach(item1 -> item.get().setSaga(null));
+        logger.info("Searching for a 'Item' in the data source");
 
-        return new ResponseEntity<Optional>(this.itemService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<Optional>(item, HttpStatus.OK);
     }
 }
