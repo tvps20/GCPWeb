@@ -21,7 +21,6 @@ import java.util.Optional;
 @RequestMapping("v1/hq")
 public class HqController {
 
-
     private static final Logger logger = LoggerFactory.getLogger(HqController.class);
 
     /**
@@ -64,6 +63,7 @@ public class HqController {
 
     /**
      * Salva ou atualiza um Hq e um Item na base de dados
+     * 
      * @param dto Objeto de transferencia de dados enviado pela view
      * @return ResponseEntity
      */
@@ -84,12 +84,12 @@ public class HqController {
         else
             logger.info("Creating new 'Item' on data source");
 
-        Item item =this.itemService.save(dto);
+        Item item = this.itemService.save(dto);
 
         // Transformando o item salvo em itemDto
         HqDto hqDto = this.hqService.createDtoFromItemHq(item, hqEntity);
 
-        return new ResponseEntity<>(item, HttpStatus.CREATED);
+        return new ResponseEntity<>(hqDto, HttpStatus.CREATED);
     }
 
     /**
