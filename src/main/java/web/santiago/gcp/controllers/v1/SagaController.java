@@ -97,7 +97,7 @@ public class SagaController {
             diferentes = items.stream().filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id))
                     .collect(Collectors.toList());
             items.forEach(item -> {
-                if (!diferentes.contains(item)) {
+                if (diferentes.contains(item)) {
                     item.setSaga(null);
                 }
             });
