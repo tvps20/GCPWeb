@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web.santiago.gcp.dtos.EmprestimoDto;
 import web.santiago.gcp.entities.Emprestimo;
+import web.santiago.gcp.entities.Item;
 import web.santiago.gcp.services.AmigoService;
 import web.santiago.gcp.services.EmprestimoService;
 import web.santiago.gcp.services.ItemService;
@@ -30,12 +31,6 @@ public class EmprestimoController {
      */
     @Autowired
     private EmprestimoService emprestimoService;
-
-    /**
-     * Servico responsavel por interagir com a base de dados da entidade Amigo
-     */
-    @Autowired
-    private AmigoService amigoService;
 
     /**
      * Servico responsavel por interagir com a base de dados da entidade Item
@@ -123,27 +118,32 @@ public class EmprestimoController {
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "returnUrl", required = false) String returnUrl) {
 
-        Emprestimo emprestimo;
-        Optional<Emprestimo> entity;
+        Emprestimo emprestimo = null;
 
         logger.info("Find 'Item' Id: {} on data source", id);
         this.itemService.verifyIfExists(id);
 
-        if (type != null && type.equals("item")) {
-            entity = this.emprestimoService.getEmprestimoNaoDevolvidoByItemId(id);
-        } else {
-            entity = this.emprestimoService.getById(id);
+        Optional<Item> item = this.itemService.getById(id);
+
+        for (Emprestimo emprestimoItem : item.get().getEmprestimos()) {
+            if (emprestimoItem.getItem().getId() == id) {
+                emprestimo = emprestimoItem;
+                break;
+            }
         }
 
-        emprestimo = entity.get();
-        if (!emprestimo.isDevolvido()) {
-            this.emprestimoService.devolver(emprestimo);
+        if (emprestimo != null) {
+            if (!emprestimo.isDevolvido()) {
+                this.emprestimoService.devolver(emprestimo);
+            }
+
+            emprestimo.getItem().setEmprestimos(null);
+            emprestimo.getAmigo().setEmprestimos(null);
+            emprestimo.getItem().setSaga(null);
+
+            return new ResponseEntity<>(emprestimo, HttpStatus.OK);
         }
 
-        emprestimo.getItem().setEmprestimos(null);
-        emprestimo.getAmigo().setEmprestimos(null);
-        emprestimo.getItem().setSaga(null);
-
-        return new ResponseEntity<>(emprestimo, HttpStatus.OK);
+        return new ResponseEntity<>("O item possui emprestimo", HttpStatus.OK);
     }
 }
