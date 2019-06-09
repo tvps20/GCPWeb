@@ -133,7 +133,11 @@ public class ItemController {
             items = items.stream().filter(e -> e.getQuantidade() > 1).collect(Collectors.toList());
         }
 
-        items.forEach(item -> item.setSaga(null));
+        items.forEach(item -> {
+            item.setSaga(null);
+            item.setEmprestimos(null);
+        });
+
         Page<Item> pages = new PageImpl<>(items, pageable, items.size());
         logger.info("Get all 'Item' from data source");
         return new ResponseEntity<>(pages, HttpStatus.OK);
