@@ -16,6 +16,7 @@ import web.santiago.gcp.services.SagaService;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -91,13 +92,20 @@ public class SagaController {
 
         // remove old items from saga
         List<Item> items = this.itemService.getAllItemsPorSaga(entity.getId());
-        List<Item> diferentes;
+        List<Item> diferentes = new ArrayList<>();
         if (items.size() != dto.getItems().size()) {
             // pegar os diferentes
-            diferentes = items.stream().filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id))
-                    .collect(Collectors.toList());
+            for (Item item : items) {
+                for (Long id : dto.getItems()) {
+                    if (item.getId() == id && !diferentes.contains(item)) {
+                        diferentes.add(item);
+                        break;
+                    }
+                }
+            }
+
             items.forEach(item -> {
-                if (diferentes.contains(item)) {
+                if (!diferentes.contains(item)) {
                     item.setSaga(null);
                 }
             });
