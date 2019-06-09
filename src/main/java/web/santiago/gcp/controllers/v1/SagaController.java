@@ -91,12 +91,16 @@ public class SagaController {
 
         // remove old items from saga
         List<Item> items = this.itemService.getAllItemsPorSaga(entity.getId());
+        List<Item> diferentes;
         if (items.size() != dto.getItems().size()) {
             // pegar os diferentes
-            List<Item> diferentes = items.stream()
-                    .filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id))
+            diferentes = items.stream().filter(item -> dto.getItems().stream().anyMatch(id -> item.getId() != id))
                     .collect(Collectors.toList());
-            items.forEach(item -> item.setSaga(null));
+            items.forEach(item -> {
+                if (!diferentes.contains(item)) {
+                    item.setSaga(null);
+                }
+            });
             this.itemService.saveAll(items);
         }
 
@@ -104,6 +108,7 @@ public class SagaController {
             item.setSaga(null);
             item.setEmprestimos(null);
         });
+
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
