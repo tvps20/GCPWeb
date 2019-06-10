@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * Metodo para liberar o acesso externo a requisições http
-     * 
+     *
      * @param registry
      */
     @Override

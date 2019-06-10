@@ -48,28 +48,28 @@ public class ItemController {
      */
     @GetMapping
     public ResponseEntity<?> listAll(Pageable pageable,
-            // item
-            @RequestParam(value = "titulo", required = false) String titulo,
-            @RequestParam(value = "tipo", required = false) String tipo,
-            @RequestParam(value = "estado", required = false) String estado,
-            @RequestParam(value = "emprestados", required = false) boolean emprestados,
-            @RequestParam(value = "repetidos", required = false) boolean repetidos,
+                                     // item
+    @RequestParam(value = "titulo", required = false) String titulo,
+    @RequestParam(value = "tipo", required = false) String tipo,
+    @RequestParam(value = "estado", required = false) String estado,
+    @RequestParam(value = "emprestados", required = false) boolean emprestados,
+    @RequestParam(value = "repetidos", required = false) boolean repetidos,
 
-            // dlc
-            @RequestParam(value = "localizacao", required = false) String localizacao,
+     // dlc
+    @RequestParam(value = "localizacao", required = false) String localizacao,
 
-            // dvdcd
-            @RequestParam(value = "assistidos", required = false) boolean assistidos,
+     //dvdcd
+    @RequestParam(value = "assistidos", required = false) boolean assistidos,
 
-            // hq
-            @RequestParam(value = "editora", required = false) String editora,
-            @RequestParam(value = "universo", required = false) String universo,
+     //hq
+    @RequestParam(value = "editora", required = false) String editora,
+    @RequestParam(value = "universo", required = false) String universo,
 
-            // jogodigital
-            @RequestParam(value = "console", required = false) String console,
+     // jogodigital
+    @RequestParam(value = "console", required = false) String console,
 
-            // jogotabuleiro
-            @RequestParam(value = "marca", required = false) String marca) {
+     // jogotabuleiro
+    @RequestParam(value = "marca", required = false) String marca) {
 
         List<Item> items;
 
@@ -80,8 +80,7 @@ public class ItemController {
 
             List<Long> ids = new ArrayList<>();
             dlcs.forEach(dlc -> ids.add(dlc.getId()));
-            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado,
-                    emprestados, ids);
+            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
         } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.DVDCD.getValor())) {
 
@@ -90,8 +89,7 @@ public class ItemController {
 
             List<Long> ids = new ArrayList<>();
             dvdCds.forEach(dvdcd -> ids.add(dvdcd.getId()));
-            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado,
-                    emprestados, ids);
+            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
         } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.HQ.getValor())) {
 
@@ -100,8 +98,7 @@ public class ItemController {
 
             List<Long> ids = new ArrayList<>();
             hqs.forEach(hq -> ids.add(hq.getId()));
-            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado,
-                    emprestados, ids);
+            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
         } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.JOGODIGITAL.getValor())) {
 
@@ -110,8 +107,7 @@ public class ItemController {
 
             List<Long> ids = new ArrayList<>();
             jogoDigitals.forEach(jogoDigital -> ids.add(jogoDigital.getId()));
-            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado,
-                    emprestados, ids);
+            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
         } else if (tipo != null && tipo != "" && tipo.equals(TipoColecao.JOGOTABULEIRO.getValor())) {
 
@@ -120,8 +116,7 @@ public class ItemController {
 
             List<Long> ids = new ArrayList<>();
             jogoTabuleiros.forEach(jogoTabuleiro -> ids.add(jogoTabuleiro.getId()));
-            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado,
-                    emprestados, ids);
+            items = this.itemService.getAllByTituloAndTipoAndEstadoAndEmprestadoAndIds(titulo, tipo, estado, emprestados, ids);
 
         } else {
 
@@ -132,6 +127,7 @@ public class ItemController {
         if (repetidos) {
             items = items.stream().filter(e -> e.getQuantidade() > 1).collect(Collectors.toList());
         }
+
 
         items.forEach(item -> {
             item.setSaga(null);
@@ -152,7 +148,7 @@ public class ItemController {
     @GetMapping("/wishlist")
     public ResponseEntity<?> listWishlist(Pageable pageable) {
         logger.info("Get all 'wishlist' from data source");
-        List<Item> itens = this.itemService.getWishListItems();
+        List<Item> itens =  this.itemService.getWishListItems();
         Page<Item> pages = new PageImpl<>(itens, pageable, itens.size());
         return new ResponseEntity<>(pages, HttpStatus.OK);
     }
@@ -169,9 +165,7 @@ public class ItemController {
         this.itemService.verifyIfExists(id);
 
         Optional<Item> item = this.itemService.getById(id);
-        if (item.get().getSaga() != null) {
-            item.get().getSaga().setItems(null);
-        }
+        if(item.get().getSaga() != null){item.get().getSaga().setItems(null);}
         item.get().getEmprestimos().forEach(emprestimo -> {
             emprestimo.setItem(null);
             emprestimo.setAmigo(null);

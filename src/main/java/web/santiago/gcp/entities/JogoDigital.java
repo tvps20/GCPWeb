@@ -24,7 +24,7 @@ public class JogoDigital extends Entity {
 
     private boolean finalizado;
 
-    @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Dlc> dlcs;
 
     public JogoDigital(String console, boolean finalizado) {

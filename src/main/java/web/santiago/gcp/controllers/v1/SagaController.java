@@ -77,7 +77,6 @@ public class SagaController {
 
     /**
      * Salva ou atualiza um Saga e um Item na base de dados
-     * 
      * @param dto Objeto de transferencia de dados enviado pela view
      * @return ResponseEntity
      */
@@ -96,8 +95,8 @@ public class SagaController {
         if (items.size() != dto.getItems().size()) {
             // pegar os diferentes
             for (Item item : items) {
-                for (Long id : dto.getItems()) {
-                    if (item.getId() == id && !diferentes.contains(item)) {
+                for (Long id : dto.getItems()){
+                    if(item.getId() == id && !diferentes.contains(item)){
                         diferentes.add(item);
                         break;
                     }
@@ -105,7 +104,7 @@ public class SagaController {
             }
 
             items.forEach(item -> {
-                if (!diferentes.contains(item)) {
+                if(!diferentes.contains(item)){
                     item.setSaga(null);
                 }
             });
