@@ -149,6 +149,11 @@ public class ItemController {
     public ResponseEntity<?> listWishlist(Pageable pageable) {
         logger.info("Get all 'wishlist' from data source");
         List<Item> itens =  this.itemService.getWishListItems();
+        itens.forEach(item -> {
+            item.setSaga(null);
+            item.setEmprestimos(null);
+        });
+
         Page<Item> pages = new PageImpl<>(itens, pageable, itens.size());
         return new ResponseEntity<>(pages, HttpStatus.OK);
     }
